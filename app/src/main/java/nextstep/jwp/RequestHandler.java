@@ -1,5 +1,8 @@
 package nextstep.jwp;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import nextstep.jwp.model.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +28,8 @@ public class RequestHandler implements Runnable {
 
         try (final InputStream inputStream = connection.getInputStream();
              final OutputStream outputStream = connection.getOutputStream()) {
+
+            HttpRequest request = new HttpRequest(inputStream);
 
             final String responseBody = "Hello world!";
 

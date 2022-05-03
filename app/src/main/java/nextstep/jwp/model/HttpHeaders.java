@@ -1,11 +1,20 @@
 package nextstep.jwp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import nextstep.jwp.exception.HeaderNotFoundException;
 
 public class HttpHeaders {
 
-    private List<HttpHeader> headers;
+    private List<HttpHeader> headers ;
+
+    public HttpHeaders() {
+        this.headers = new ArrayList<>();
+    }
+
+    public void addHeader(String line){
+        this.headers.add(HttpHeader.of(line));
+    }
 
     public String getHeaderValueWithHeaderType(String headerType) {
         return getHttpHeaderWithHeaderType(headerType).getHeaderValue();

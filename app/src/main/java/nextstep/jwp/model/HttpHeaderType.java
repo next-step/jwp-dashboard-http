@@ -8,7 +8,10 @@ public enum HttpHeaderType {
     CONNECTION("Connection"),
     CONTENT_TYPE("Content-Type"),
     CONTENT_LENGTH("Content-Length"),
-    LOCATION("Location");
+    LOCATION("Location"),
+    HOST("Host"),
+    ACCEPT("Accept"),
+    Date("Date");
 
     private final String headerType;
 
