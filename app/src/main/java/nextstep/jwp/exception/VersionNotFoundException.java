@@ -1,6 +1,6 @@
 package nextstep.jwp.exception;
 
-public class VersionNotFoundException extends RuntimeException{
+public class VersionNotFoundException extends RuntimeException {
 
     public VersionNotFoundException(String message) {
         super(message);

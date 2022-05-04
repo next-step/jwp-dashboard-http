@@ -1,6 +1,6 @@
 package nextstep.jwp.exception;
 
-public class HeaderNotFoundException extends RuntimeException{
+public class HeaderNotFoundException extends RuntimeException {
 
     public HeaderNotFoundException(String message) {
         super(message);

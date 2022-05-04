@@ -1,6 +1,6 @@
 package nextstep.jwp.exception;
 
-public class MethodNotFoundException extends RuntimeException{
+public class MethodNotFoundException extends RuntimeException {
 
     public MethodNotFoundException(String message) {
         super(message);
