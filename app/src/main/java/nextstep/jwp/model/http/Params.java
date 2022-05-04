@@ -33,7 +33,7 @@ public class Params {
     }
 
     private static void checkIndex(int index) {
-        if(index == -1) {
+        if (index == -1) {
             throw new InvalidParameterException("This parameter is not invalid.");
         }
     }

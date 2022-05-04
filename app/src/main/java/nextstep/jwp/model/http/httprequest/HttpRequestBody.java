@@ -14,7 +14,7 @@ public class HttpRequestBody {
         this.params = Params.of(body);
     }
 
-    public String getBodyParam(String name){
+    public String getBodyParam(String name) {
         return this.params.getParam(name);
     }
 

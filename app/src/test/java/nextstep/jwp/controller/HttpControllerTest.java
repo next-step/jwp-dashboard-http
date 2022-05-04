@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.io.IOException;
 import nextstep.jwp.controller.HttpController;
 import nextstep.jwp.exception.DuplicatedAccountException;
+import nextstep.jwp.exception.InvalidUrlException;
 import nextstep.jwp.model.http.httprequest.HttpRequest;
 import nextstep.jwp.model.http.httpresponse.HttpResponse;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class HttpControllerTest {
 
     private final String DUPLICATED_ACCOUNT_EXCEPTION = "This Account already exists. : ";
+    private final String INVALID_URL_EXCEPTION = "This url does not exist. :";
 
     private HttpController httpController = new HttpController();
 
@@ -35,8 +37,7 @@ class HttpControllerTest {
     @Test
     public void post_method_login_response() {
         String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive "};
-        HttpRequest request = new HttpRequest(
-            "POST /login?account=gugu&password=password HTTP/1.1 ", headers, "");
+        HttpRequest request = new HttpRequest("POST /login?account=gugu&password=password HTTP/1.1 ", headers, "");
         HttpResponse response = httpController.getResponse(request);
         String expected = "HTTP/1.1 302 Found \r\n"
             + "Location: static/index.html \r\n"
@@ -48,8 +49,7 @@ class HttpControllerTest {
     @Test
     public void post_method_login_with_invalid_password_response() {
         String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive "};
-        HttpRequest request = new HttpRequest(
-            "POST /login?account=gugu&password=invalidPassword HTTP/1.1 ", headers, "");
+        HttpRequest request = new HttpRequest("POST /login?account=gugu&password=invalidPassword HTTP/1.1 ", headers, "");
         HttpResponse response = httpController.getResponse(request);
         String expected = "HTTP/1.1 401 Unauthorized \r\n"
             + "Location: static/401.html \r\n"
@@ -77,6 +77,15 @@ class HttpControllerTest {
         assertThatThrownBy(() -> httpController.getResponse(request))
             .isInstanceOf(DuplicatedAccountException.class)
             .hasMessageContaining(DUPLICATED_ACCOUNT_EXCEPTION);
+    }
+
+    @Test
+    public void post_method_with_invalid_url() {
+        String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive "};
+        HttpRequest request = new HttpRequest("POST /test HTTP/1.1 ", headers, "account=gugu&password=password&email=hkkang%40woowahan.com");
+        assertThatThrownBy(() -> httpController.getResponse(request))
+            .isInstanceOf(InvalidUrlException.class)
+            .hasMessageContaining(INVALID_URL_EXCEPTION);
     }
 
     @Test

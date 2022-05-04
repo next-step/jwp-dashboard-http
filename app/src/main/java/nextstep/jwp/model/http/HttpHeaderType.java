@@ -36,6 +36,6 @@ public enum HttpHeaderType {
 
     @Override
     public String toString() {
-        return  headerType;
+        return headerType;
     }
 }
