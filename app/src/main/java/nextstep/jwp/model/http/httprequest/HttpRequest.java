@@ -46,12 +46,10 @@ public class HttpRequest {
     }
 
     private HttpRequestBody readBody(BufferedReader bufferedReader) throws IOException {
-        String body = "";
-        String line = bufferedReader.readLine();
-        while (line != null) {
-            body += (line + "\n");
-        }
-        return new HttpRequestBody(body);
+        int contentLength = headers.getContentLength();
+        char[] buffer = new char[contentLength];
+        bufferedReader.read(buffer, 0, contentLength);
+        return new HttpRequestBody(new String(buffer));
     }
 
     public boolean isGetRequest() {

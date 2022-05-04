@@ -39,7 +39,7 @@ public class Params {
     }
 
     public void addParam(String name, String value) {
-        this.params.add(new Param(name, value));
+        this.params.add(new Param(name, value.replace("\n", "")));
     }
 
     public String getParam(String name) {

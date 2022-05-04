@@ -2,11 +2,7 @@ package nextstep.jwp.controller;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import nextstep.jwp.controller.HttpController;
 import nextstep.jwp.exception.DuplicatedAccountException;
 import nextstep.jwp.exception.InvalidUrlException;
 import nextstep.jwp.model.http.httprequest.HttpRequest;
@@ -26,7 +22,7 @@ class HttpControllerTest {
     @Test
     public void get_method_response() throws IOException {
         String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive "};
-        HttpRequest request = new HttpRequest("GET static/index.html HTTP/1.1 ", headers, "");
+        HttpRequest request = new HttpRequest("GET /index.html HTTP/1.1 ", headers, "");
         HttpResponse response = httpController.getResponse(request);
         String expected = "HTTP/1.1 200 OK \r\n"
             + "Content-Type: text/html;charset=utf-8 \r\n"
@@ -39,7 +35,7 @@ class HttpControllerTest {
     @Test
     public void get_method_css_type_response() throws IOException {
         String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive ", "Accept: text/css,*/*;q=0.1"};
-        HttpRequest request = new HttpRequest("GET static/css/styles.css HTTP/1.1 ", headers, "");
+        HttpRequest request = new HttpRequest("GET /css/styles.css HTTP/1.1 ", headers, "");
         HttpResponse response = httpController.getResponse(request);
         String expected = "HTTP/1.1 200 OK \r\n"
             + "Content-Type: text/css \r\n"
@@ -55,7 +51,7 @@ class HttpControllerTest {
         HttpRequest request = new HttpRequest("POST /login?account=gugu&password=password HTTP/1.1 ", headers, "");
         HttpResponse response = httpController.getResponse(request);
         String expected = "HTTP/1.1 302 Found \r\n"
-            + "Location: static/index.html \r\n"
+            + "Location: /index.html \r\n"
             + "\r\n"
             + "";
         assertThat(response.toString()).isEqualTo(expected);
@@ -67,7 +63,7 @@ class HttpControllerTest {
         HttpRequest request = new HttpRequest("POST /login?account=gugu&password=invalidPassword HTTP/1.1 ", headers, "");
         HttpResponse response = httpController.getResponse(request);
         String expected = "HTTP/1.1 401 Unauthorized \r\n"
-            + "Location: static/401.html \r\n"
+            + "Location: /401.html \r\n"
             + "\r\n"
             + "";
         assertThat(response.toString()).isEqualTo(expected);
@@ -79,7 +75,7 @@ class HttpControllerTest {
         HttpRequest request = new HttpRequest("POST /register HTTP/1.1 ", headers, "account=gugugu&password=password&email=hkkang%40woowahan.com");
         HttpResponse response = httpController.getResponse(request);
         String expected = "HTTP/1.1 302 Found \r\n"
-            + "Location: static/index.html \r\n"
+            + "Location: /index.html \r\n"
             + "\r\n"
             + "";
         assertThat(response.toString()).isEqualTo(expected);

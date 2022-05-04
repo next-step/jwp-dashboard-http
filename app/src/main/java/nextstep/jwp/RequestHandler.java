@@ -1,6 +1,10 @@
 package nextstep.jwp;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.util.List;
 import nextstep.jwp.controller.HttpController;
+import nextstep.jwp.model.http.HttpHeader;
 import nextstep.jwp.model.http.httprequest.HttpRequest;
 import nextstep.jwp.model.http.httpresponse.HttpResponse;
 import org.slf4j.Logger;
@@ -26,16 +30,16 @@ public class RequestHandler implements Runnable {
 
     @Override
     public void run() {
-        log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(), connection.getPort());
+        log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
+            connection.getPort());
 
-        try (final InputStream inputStream = connection.getInputStream();
-            final OutputStream outputStream = connection.getOutputStream()) {
-
+        try (final InputStream inputStream = connection.getInputStream(); final OutputStream outputStream = connection.getOutputStream()) {
             HttpRequest httpRequest = new HttpRequest(inputStream);
             HttpResponse httpResponse = httpController.getResponse(httpRequest);
-            outputStream.write(httpResponse.getBytes());
-            outputStream.flush();
-
+            System.out.println(httpResponse.toString());
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
+            bufferedOutputStream.write(httpResponse.toBytes());
+            bufferedOutputStream.flush();
         } catch (IOException exception) {
             log.error("Exception stream", exception);
         } finally {

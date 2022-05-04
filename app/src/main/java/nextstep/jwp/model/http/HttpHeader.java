@@ -15,6 +15,22 @@ public class HttpHeader {
         return new HttpHeader(HttpHeaderType.of(headers[0]), headers[1]);
     }
 
+    public Integer getContentLength() {
+        if (isContentLength()) {
+            return Integer.parseInt(headerValue);
+        }
+        return 0;
+    }
+
+    private boolean isContentLength() {
+        return this.headerType.equals(HttpHeaderType.CONTENT_LENGTH);
+    }
+
+
+    public String getHeaderValue() {
+        return headerValue;
+    }
+
     @Override
     public String toString() {
         return headerType + ": " + headerValue;

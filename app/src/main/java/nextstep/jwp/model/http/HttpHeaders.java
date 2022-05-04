@@ -2,6 +2,7 @@ package nextstep.jwp.model.http;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import nextstep.jwp.model.http.httpresponse.ContentType;
@@ -36,10 +37,18 @@ public class HttpHeaders {
         addHeader(HttpHeaderType.LOCATION.getHeaderType() + ": " + location + " ");
     }
 
+    public Integer getContentLength() {
+        return headers.stream()
+            .mapToInt(httpHeader -> httpHeader.getContentLength())
+            .max()
+            .orElse(0);
+    }
+
     @Override
     public String toString() {
         return headers.stream()
-            .map(httpHeader -> httpHeader.toString())
+            .map(HttpHeader::toString)
             .collect(Collectors.joining("\r\n")) + "\r\n";
     }
+
 }

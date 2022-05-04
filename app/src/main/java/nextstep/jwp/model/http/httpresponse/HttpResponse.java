@@ -1,5 +1,6 @@
 package nextstep.jwp.model.http.httpresponse;
 
+import java.nio.charset.StandardCharsets;
 import nextstep.jwp.model.http.HttpHeaders;
 
 public class HttpResponse {
@@ -43,7 +44,8 @@ public class HttpResponse {
         return httpStatusLine + "\r\n" + httpHeaders + "\r\n" + new String(body);
     }
 
-    public byte[] getBytes() {
-        return this.toString().getBytes();
+    public byte[] toBytes() {
+        return this.toString().getBytes(StandardCharsets.UTF_8);
     }
+
 }

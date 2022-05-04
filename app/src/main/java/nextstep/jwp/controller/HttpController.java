@@ -50,11 +50,11 @@ public class HttpController {
 
     private HttpResponse doLogin(HttpRequest httpRequest) {
         try {
-            userService.login(httpRequest.getParam("account"), httpRequest.getParam("password"));
-            return HttpResponse.redirect("static/index.html", httpRequest.getHttpVersion(), 302);
+            userService.login(httpRequest.getBodyParam("account"), httpRequest.getBodyParam("password"));
+            return HttpResponse.redirect("/index.html", httpRequest.getHttpVersion(), 302);
         } catch (InvalidPasswordException e) {
             logger.info(e.getMessage());
-            return HttpResponse.redirect("static/401.html", httpRequest.getHttpVersion(), 401);
+            return HttpResponse.redirect("/401.html", httpRequest.getHttpVersion(), 401);
         }
     }
 
@@ -62,7 +62,7 @@ public class HttpController {
         userService.register(httpRequest.getBodyParam("account"),
             httpRequest.getBodyParam("password"),
             httpRequest.getBodyParam("email"));
-        return HttpResponse.redirect("static/index.html", httpRequest.getHttpVersion(), 302);
+        return HttpResponse.redirect("/index.html", httpRequest.getHttpVersion(), 302);
     }
 
     private HttpResponse doOtherMethod(HttpRequest httpRequest) {
@@ -71,8 +71,8 @@ public class HttpController {
 
     private byte[] getBodyFromPath(String filePath) {
         try {
-            URL resource = getClass().getClassLoader().getResource(filePath);
-            final Path path = new File(resource.getPath()).toPath();
+            URL resource = Thread.currentThread().getContextClassLoader().getResource("static" + filePath);
+            final Path path = new File(resource.getFile()).toPath();
             return Files.readAllBytes(path);
         } catch (IOException e) {
             logger.info(e.getMessage());

@@ -34,7 +34,7 @@ class RequestHandlerTest {
     void index() throws IOException {
         // given
         final String httpRequest = String.join("\r\n",
-            "GET static/index.html HTTP/1.1 ",
+            "GET /index.html HTTP/1.1 ",
             "Host: localhost:8080 ",
             "Connection: keep-alive ",
             "",

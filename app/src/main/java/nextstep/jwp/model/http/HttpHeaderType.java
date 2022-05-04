@@ -12,7 +12,22 @@ public enum HttpHeaderType {
     HOST("Host"),
     ACCEPT("Accept"),
     DATE("Date"),
-    CACHE_CONTROL("Cache-Control");
+    CACHE_CONTROL("Cache-Control"),
+    SEC_CH_UA("sec-ch-ua"),
+    SEC_CH_UA_MOBILE("sec-ch-ua-mobile"),
+    SEC_CH_UA_PLATFORM("sec-ch-ua-platform"),
+    UPGRADE_INSECURE_REQUESTS("Upgrade-Insecure-Requests"),
+    USER_AGENT("User-Agent"),
+    SEC_FETCH_SITE("Sec-Fetch-Site"),
+    SEC_FETCH_MODE("Sec-Fetch-Mode"),
+    SEC_FETCH_USER("Sec-Fetch-User"),
+    SEC_FETCH_DEST("Sec-Fetch-Dest"),
+    ACCEPT_ENCODING("Accept-Encoding"),
+    ACCEPT_LANGUAGE("Accept-Language"),
+    COOKIE("Cookie"),
+    PRAGMA("Pragma"),
+    REFERER("Referer"),
+    ORIGIN("Origin");
 
 
     private final String headerType;

@@ -21,9 +21,9 @@ class HttpResponseTest {
 
     @Test
     public void create_redirect_response() {
-        HttpResponse response = HttpResponse.redirect("static/index.html", "HTTP/1.1", 302);
+        HttpResponse response = HttpResponse.redirect("/index.html", "HTTP/1.1", 302);
         String expected = "HTTP/1.1 302 Found \r\n"
-            + "Location: static/index.html \r\n"
+            + "Location: /index.html \r\n"
             + "\r\n"
             + "";
         assertThat(response.toString()).isEqualTo(expected);
