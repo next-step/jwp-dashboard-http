@@ -48,7 +48,7 @@ class HttpControllerTest {
     @Test
     public void post_method_login_response() {
         String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive "};
-        HttpRequest request = new HttpRequest("POST /login?account=gugu&password=password HTTP/1.1 ", headers, "");
+        HttpRequest request = new HttpRequest("POST /login?account=gugu&password=password HTTP/1.1 ", headers, "account=gugu&password=password");
         HttpResponse response = httpController.getResponse(request);
         String expected = "HTTP/1.1 302 Found \r\n"
             + "Location: /index.html \r\n"
@@ -60,7 +60,7 @@ class HttpControllerTest {
     @Test
     public void post_method_login_with_invalid_password_response() {
         String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive "};
-        HttpRequest request = new HttpRequest("POST /login?account=gugu&password=invalidPassword HTTP/1.1 ", headers, "");
+        HttpRequest request = new HttpRequest("POST /login?account=gugu&password=invalidPassword HTTP/1.1 ", headers, "account=gugu&password=invalidPassword");
         HttpResponse response = httpController.getResponse(request);
         String expected = "HTTP/1.1 401 Unauthorized \r\n"
             + "Location: /401.html \r\n"
