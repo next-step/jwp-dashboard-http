@@ -1,4 +1,6 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http.httprequest;
+
+import nextstep.jwp.model.http.HttpVersion;
 
 public class HttpRequestLine {
 
@@ -31,10 +33,6 @@ public class HttpRequestLine {
 
     public String getPath() {
         return this.httpUrl.getPath();
-    }
-
-    public String getParams() {
-        return this.httpUrl.getParams();
     }
 
     public String getParam(String name) {

@@ -1,10 +1,10 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import nextstep.jwp.exception.HeaderNotFoundException;
+import nextstep.jwp.model.http.httpresponse.ContentType;
 
 public class HttpHeaders {
 
@@ -24,20 +24,8 @@ public class HttpHeaders {
         this.headers.add(HttpHeader.of(line));
     }
 
-//    public String getHeaderValueWithHeaderType(String headerType) {
-//        return getHttpHeaderWithHeaderType(headerType).getHeaderValue();
-//    }
-//
-//    private HttpHeader getHttpHeaderWithHeaderType(String type) {
-//        return this.headers.stream()
-//            .filter(httpHeader -> httpHeader.isEqualHeaderType(type))
-//            .findFirst()
-//            .orElseThrow(() -> new HeaderNotFoundException("Header Type does not exist :" + type));
-//    }
-
     public void addContentTypeHeader(String type) {
-        addHeader(HttpHeaderType.CONTENT_TYPE.getHeaderType() + ": " + ContentType.contentType(type)
-            + " ");
+        addHeader(HttpHeaderType.CONTENT_TYPE.getHeaderType() + ": " + ContentType.contentType(type) + " ");
     }
 
     public void addContentLengthHeader(int contentLength) {

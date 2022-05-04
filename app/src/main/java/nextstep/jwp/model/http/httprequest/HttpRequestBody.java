@@ -1,4 +1,6 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http.httprequest;
+
+import nextstep.jwp.model.http.Params;
 
 public class HttpRequestBody {
 
@@ -16,4 +18,8 @@ public class HttpRequestBody {
         return this.params.getParam(name);
     }
 
+    @Override
+    public String toString() {
+        return params.toString();
+    }
 }

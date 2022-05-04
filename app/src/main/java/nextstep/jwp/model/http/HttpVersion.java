@@ -1,4 +1,4 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http;
 
 import java.util.Arrays;
 import nextstep.jwp.exception.VersionNotFoundException;

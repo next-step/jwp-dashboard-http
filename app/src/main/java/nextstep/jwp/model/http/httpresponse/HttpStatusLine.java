@@ -1,4 +1,6 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http.httpresponse;
+
+import nextstep.jwp.model.http.HttpVersion;
 
 public class HttpStatusLine {
 

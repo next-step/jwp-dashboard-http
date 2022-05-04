@@ -1,9 +1,10 @@
-package nextstep.jwp.model;
+package nextstep.jwp.service;
 
 import nextstep.jwp.db.InMemoryUserRepository;
 import nextstep.jwp.exception.DuplicatedAccountException;
 import nextstep.jwp.exception.InvalidPasswordException;
 import nextstep.jwp.exception.UserNotFoundException;
+import nextstep.jwp.model.User;
 
 public class UserService {
 

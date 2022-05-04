@@ -1,4 +1,4 @@
-package nextstep.jwp.model;
+package nextstep.jwp.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import nextstep.jwp.exception.InvalidPasswordException;
 import nextstep.jwp.exception.InvalidUrlException;
+import nextstep.jwp.service.UserService;
+import nextstep.jwp.model.http.httprequest.HttpRequest;
+import nextstep.jwp.model.http.httpresponse.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

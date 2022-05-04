@@ -1,10 +1,11 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http.httprequest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import nextstep.jwp.exception.HttpRequestMessageIsEmptyException;
+import nextstep.jwp.model.http.HttpHeaders;
 
 public class HttpRequest {
 

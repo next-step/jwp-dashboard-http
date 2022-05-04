@@ -1,4 +1,4 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http;
 
 public class HttpHeader {
 
@@ -13,18 +13,6 @@ public class HttpHeader {
     public static HttpHeader of(String headerLine) {
         String[] headers = headerLine.split(": ");
         return new HttpHeader(HttpHeaderType.of(headers[0]), headers[1]);
-    }
-
-    public HttpHeaderType getHeaderType() {
-        return headerType;
-    }
-
-    public String getHeaderValue() {
-        return headerValue;
-    }
-
-    public boolean isEqualHeaderType(String type) {
-        return headerType.isEqualHeaderType(type);
     }
 
     @Override

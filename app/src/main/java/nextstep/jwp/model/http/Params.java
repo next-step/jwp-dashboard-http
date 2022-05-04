@@ -1,6 +1,7 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http;
 
-import java.util.HashSet;
+import java.security.InvalidParameterException;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,12 +17,25 @@ public class Params {
 
     public static Params of(String query) {
         Params params = new Params();
-        String[] parameters = query.split("&");
-        for (String param : parameters) {
-            int index = param.indexOf("=");
-            params.addParam(param.substring(0, index), param.substring(index + 1));
+        if (!query.isEmpty()) {
+            String[] parameters = query.split("&");
+            addParams(params, parameters);
         }
         return params;
+    }
+
+    private static void addParams(Params params, String[] parameters) {
+        for (String param : parameters) {
+            int index = param.indexOf("=");
+            checkIndex(index);
+            params.addParam(param.substring(0, index), param.substring(index + 1));
+        }
+    }
+
+    private static void checkIndex(int index) {
+        if(index == -1) {
+            throw new InvalidParameterException("This parameter is not invalid.");
+        }
     }
 
     public void addParam(String name, String value) {
@@ -38,6 +52,10 @@ public class Params {
 
     public boolean isEmpty() {
         return this.params.isEmpty();
+    }
+
+    public Set<Param> getParams() {
+        return Collections.unmodifiableSet(params);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package nextstep.jwp.model;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 import nextstep.jwp.exception.ContentTypeNotFoundException;
+import nextstep.jwp.model.httpresponse.ContentType;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,4 +1,4 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http.httprequest;
 
 import java.util.Arrays;
 import nextstep.jwp.exception.MethodNotFoundException;

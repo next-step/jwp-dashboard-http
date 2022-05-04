@@ -1,8 +1,6 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http.httprequest;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import nextstep.jwp.model.http.Params;
 
 public class HttpUrl {
 
@@ -29,10 +27,6 @@ public class HttpUrl {
 
     public String getPath() {
         return path;
-    }
-
-    public String getParams() {
-        return this.params.toString();
     }
 
     public String getParam(String name) {
