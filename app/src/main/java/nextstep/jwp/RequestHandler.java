@@ -1,5 +1,12 @@
 package nextstep.jwp;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.util.List;
+import nextstep.jwp.controller.HttpController;
+import nextstep.jwp.model.http.HttpHeader;
+import nextstep.jwp.model.http.httprequest.HttpRequest;
+import nextstep.jwp.model.http.httpresponse.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,34 +18,31 @@ import java.util.Objects;
 
 public class RequestHandler implements Runnable {
 
-    private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
     private final Socket connection;
+    private final HttpController httpController;
 
     public RequestHandler(Socket connection) {
         this.connection = Objects.requireNonNull(connection);
+        this.httpController = new HttpController();
     }
 
     @Override
     public void run() {
-        log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(), connection.getPort());
+        logger.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
+            connection.getPort());
 
-        try (final InputStream inputStream = connection.getInputStream();
-             final OutputStream outputStream = connection.getOutputStream()) {
-
-            final String responseBody = "Hello world!";
-
-            final String response = String.join("\r\n",
-                    "HTTP/1.1 200 OK ",
-                    "Content-Type: text/html;charset=utf-8 ",
-                    "Content-Length: " + responseBody.getBytes().length + " ",
-                    "",
-                    responseBody);
-
-            outputStream.write(response.getBytes());
-            outputStream.flush();
+        try (final InputStream inputStream = connection.getInputStream(); final OutputStream outputStream = connection.getOutputStream()) {
+            HttpRequest httpRequest = new HttpRequest(inputStream);
+            logger.info("Http Request {}", httpRequest.toString());
+            HttpResponse httpResponse = httpController.getResponse(httpRequest);
+            logger.info("Http Response {}", httpResponse.toString());
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
+            bufferedOutputStream.write(httpResponse.toBytes());
+            bufferedOutputStream.flush();
         } catch (IOException exception) {
-            log.error("Exception stream", exception);
+            logger.error("Exception stream", exception);
         } finally {
             close();
         }
@@ -48,7 +52,8 @@ public class RequestHandler implements Runnable {
         try {
             connection.close();
         } catch (IOException exception) {
-            log.error("Exception closing socket", exception);
+            logger.error("Exception closing socket", exception);
         }
     }
+
 }
