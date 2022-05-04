@@ -1,16 +1,16 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http.httpresponse;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import nextstep.jwp.exception.ContentTypeNotFoundException;
-import nextstep.jwp.model.httpresponse.ContentType;
+import nextstep.jwp.model.http.httpresponse.ContentType;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ContentTypeTest {
 
-    private static final String CONTENT_TYPE_NOT_FOUND_EXCEPTION = "ContentType does not exist : ";
+    private final String CONTENT_TYPE_NOT_FOUND_EXCEPTION = "ContentType does not exist : ";
 
     @Test
     public void find_content_type_with_type() {

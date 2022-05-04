@@ -1,9 +1,9 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http.httprequest;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import nextstep.jwp.model.httprequest.HttpRequest;
+import nextstep.jwp.model.http.httprequest.HttpRequest;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,6 +1,6 @@
-package nextstep.jwp.model;
+package nextstep.jwp.model.http.httpresponse;
 
-import nextstep.jwp.model.httpresponse.HttpResponse;
+import nextstep.jwp.model.http.httpresponse.HttpResponse;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
