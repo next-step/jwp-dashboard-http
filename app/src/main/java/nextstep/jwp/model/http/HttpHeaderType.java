@@ -11,7 +11,9 @@ public enum HttpHeaderType {
     LOCATION("Location"),
     HOST("Host"),
     ACCEPT("Accept"),
-    Date("Date");
+    DATE("Date"),
+    CACHE_CONTROL("Cache-Control");
+
 
     private final String headerType;
 

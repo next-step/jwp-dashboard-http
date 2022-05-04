@@ -2,7 +2,10 @@ package nextstep.jwp.controller;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
 import nextstep.jwp.controller.HttpController;
 import nextstep.jwp.exception.DuplicatedAccountException;
 import nextstep.jwp.exception.InvalidUrlException;
@@ -31,7 +34,19 @@ class HttpControllerTest {
             + "\r\n"
             + "Hello world!";
         assertThat(response.toString()).isEqualTo(expected);
+    }
 
+    @Test
+    public void get_method_css_type_response() throws IOException {
+        String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive ", "Accept: text/css,*/*;q=0.1"};
+        HttpRequest request = new HttpRequest("GET static/css/styles.css HTTP/1.1 ", headers, "");
+        HttpResponse response = httpController.getResponse(request);
+        String expected = "HTTP/1.1 200 OK \r\n"
+            + "Content-Type: text/css \r\n"
+            + "Content-Length: 6 \r\n"
+            + "\r\n"
+            + "styles";
+        assertThat(response.toString()).isEqualTo(expected);
     }
 
     @Test
@@ -99,5 +114,6 @@ class HttpControllerTest {
             + "";
         assertThat(response.toString()).isEqualTo(expected);
     }
+
 
 }
