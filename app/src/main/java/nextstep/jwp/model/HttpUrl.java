@@ -30,4 +30,13 @@ public class HttpUrl {
     public String getQuery() {
         return query;
     }
+
+    @Override
+    public String toString() {
+        if (query.isEmpty()) {
+            return path;
+        }
+        return path + "?" +
+            query;
+    }
 }

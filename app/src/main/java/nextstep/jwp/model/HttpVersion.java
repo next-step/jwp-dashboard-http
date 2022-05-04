@@ -23,4 +23,13 @@ public enum HttpVersion {
     public boolean isEqualHttpVersion(String version) {
         return this.httpVersion.equals(version);
     }
+
+    public String getHttpVersion() {
+        return httpVersion;
+    }
+
+    @Override
+    public String toString() {
+        return httpVersion;
+    }
 }

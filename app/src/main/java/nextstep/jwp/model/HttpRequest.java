@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import nextstep.jwp.exception.HttpRequestMessageIsEmpty;
+import nextstep.jwp.exception.HttpRequestMessageIsEmptyException;
 
 public class HttpRequest {
 
@@ -23,7 +23,7 @@ public class HttpRequest {
     private HttpRequestLine readRequestLine(BufferedReader bufferedReader) throws IOException {
         String line = bufferedReader.readLine();
         if (line == null) {
-            throw new HttpRequestMessageIsEmpty("HttpRequestMessage is empty.");
+            throw new HttpRequestMessageIsEmptyException("HttpRequestMessage is empty.");
         }
         return new HttpRequestLine(line);
     }
@@ -31,7 +31,7 @@ public class HttpRequest {
     private HttpHeaders readHeaders(BufferedReader bufferedReader) throws IOException {
         HttpHeaders httpHeaders = new HttpHeaders();
         String line = bufferedReader.readLine();
-        while ((line != null) && ("".equals(line))) {
+        while ((line != null) && (!"".equals(line))) {
             httpHeaders.addHeader(line);
             line = bufferedReader.readLine();
         }
@@ -47,4 +47,24 @@ public class HttpRequest {
         return body;
     }
 
+    public boolean isGetMethod() {
+        return this.requestLine.isGetMethod();
+    }
+
+    public String getPath() {
+        return this.requestLine.getPath();
+    }
+
+    public String getQuery() {
+        return this.requestLine.getQuery();
+    }
+
+    public String getHttpVersion() {
+        return this.requestLine.getHttpVersion();
+    }
+
+    @Override
+    public String toString() {
+        return requestLine + "\r\n" + headers + "\r\n" + body;
+    }
 }
