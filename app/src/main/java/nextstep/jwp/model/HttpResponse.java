@@ -6,23 +6,24 @@ import java.util.Arrays;
 public class HttpResponse {
 
     private HttpStatusLine httpStatusLine;
-    private HttpHeaders httpHeaders;
+    private HttpHeaders httpHeaders = new HttpHeaders();
     private byte[] body;
 
-    public HttpResponse(String type, String httpVersion, int statusCode, byte[] body) {
-        this.httpStatusLine = new HttpStatusLine(httpVersion, statusCode);
+    public HttpResponse(HttpStatusLine httpStatusLine, byte[] body) {
+        this.httpStatusLine = httpStatusLine;
         this.body = body;
-        addHeaders(type, statusCode);
     }
 
-    public void addHeaders(String type, int statusCode) {
-        this.httpHeaders = new HttpHeaders();
-        if (statusCode == 200) {
-            addOkHeader(type);
-        }
-        if (statusCode == 304) {
-            addFoundHeader(type, "/index.html");
-        }
+    public static HttpResponse ok(String type, String httpVersion, byte[] body) {
+        HttpResponse httpResponse = new HttpResponse(new HttpStatusLine(httpVersion, 200), body);
+        httpResponse.addOkHeader(type);
+        return httpResponse;
+    }
+
+    public static HttpResponse redirect(String url, String httpVersion, int statusCode) {
+        HttpResponse httpResponse = new HttpResponse(new HttpStatusLine(httpVersion, statusCode), new byte[0]);
+        httpResponse.addFoundHeader(url);
+        return httpResponse;
     }
 
     private void addOkHeader(String type) {
@@ -30,10 +31,8 @@ public class HttpResponse {
         httpHeaders.addContentLengthHeader(this.body.length);
     }
 
-    private void addFoundHeader(String type, String location) {
-        httpHeaders.addContentTypeHeader(type);
-        httpHeaders.addContentLengthHeader(this.body.length);
-        httpHeaders.addLocationHeader(location);
+    private void addFoundHeader(String url) {
+        httpHeaders.addLocationHeader(url);
     }
 
     @Override

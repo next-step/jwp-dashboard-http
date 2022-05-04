@@ -1,6 +1,7 @@
 package nextstep.jwp.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import nextstep.jwp.exception.HeaderNotFoundException;
@@ -11,6 +12,12 @@ public class HttpHeaders {
 
     public HttpHeaders() {
         this.headers = new ArrayList<>();
+    }
+
+    public HttpHeaders(String[] headers) {
+        this.headers = Arrays.stream(headers)
+            .map(HttpHeader::of)
+            .collect(Collectors.toList());
     }
 
     public void addHeader(String line) {
@@ -29,7 +36,8 @@ public class HttpHeaders {
 //    }
 
     public void addContentTypeHeader(String type) {
-        addHeader(HttpHeaderType.CONTENT_TYPE.getHeaderType() + ": " + ContentType.contentType(type)+ " ");
+        addHeader(HttpHeaderType.CONTENT_TYPE.getHeaderType() + ": " + ContentType.contentType(type)
+            + " ");
     }
 
     public void addContentLengthHeader(int contentLength) {

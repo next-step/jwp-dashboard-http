@@ -20,6 +20,12 @@ public class HttpRequest {
         this.body = readBody(bufferedReader);
     }
 
+    public HttpRequest(String requestLine, String[] headers, String body) {
+        this.requestLine = new HttpRequestLine(requestLine);
+        this.headers = new HttpHeaders(headers);
+        this.body = body;
+    }
+
     private HttpRequestLine readRequestLine(BufferedReader bufferedReader) throws IOException {
         String line = bufferedReader.readLine();
         if (line == null) {
@@ -47,16 +53,32 @@ public class HttpRequest {
         return body;
     }
 
-    public boolean isGetMethod() {
-        return this.requestLine.isGetMethod();
+    public boolean isGetRequest() {
+        return this.requestLine.isGetRequest();
+    }
+
+    public boolean isPostRequest() {
+        return this.requestLine.isPostRequest();
+    }
+
+    public boolean isLoginRequest() {
+        return this.requestLine.isLoginRequest();
+    }
+
+    public boolean isRegisterRequest() {
+        return this.requestLine.isRegisterRequest();
     }
 
     public String getPath() {
         return this.requestLine.getPath();
     }
 
-    public String getQuery() {
-        return this.requestLine.getQuery();
+    public String getParams() {
+        return this.requestLine.getParams();
+    }
+
+    public String getParam(String name) {
+        return this.requestLine.getParam(name);
     }
 
     public String getHttpVersion() {

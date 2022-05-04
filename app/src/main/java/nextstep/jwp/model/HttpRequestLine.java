@@ -13,16 +13,32 @@ public class HttpRequestLine {
         this.httpVersion = HttpVersion.of(request[2]);
     }
 
-    public boolean isGetMethod() {
+    public boolean isGetRequest() {
         return this.httpMethod.equals(HttpMethod.GET);
+    }
+
+    public boolean isPostRequest() {
+        return this.httpMethod.equals(HttpMethod.POST);
+    }
+
+    public boolean isLoginRequest() {
+        return this.httpUrl.isLoginRequest();
+    }
+
+    public boolean isRegisterRequest() {
+        return this.httpUrl.isRegisterRequest();
     }
 
     public String getPath() {
         return this.httpUrl.getPath();
     }
 
-    public String getQuery() {
-        return this.httpUrl.getQuery();
+    public String getParams() {
+        return this.httpUrl.getParams();
+    }
+
+    public String getParam(String name) {
+        return this.httpUrl.getParam(name);
     }
 
     public String getHttpVersion() {
