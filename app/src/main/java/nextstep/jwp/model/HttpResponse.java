@@ -1,8 +1,5 @@
 package nextstep.jwp.model;
 
-import java.io.OutputStream;
-import java.util.Arrays;
-
 public class HttpResponse {
 
     private HttpStatusLine httpStatusLine;
@@ -24,6 +21,10 @@ public class HttpResponse {
         HttpResponse httpResponse = new HttpResponse(new HttpStatusLine(httpVersion, statusCode), new byte[0]);
         httpResponse.addFoundHeader(url);
         return httpResponse;
+    }
+
+    public static HttpResponse notFound(String httpVersion) {
+        return new HttpResponse(new HttpStatusLine(httpVersion, 404), new byte[0]);
     }
 
     private void addOkHeader(String type) {

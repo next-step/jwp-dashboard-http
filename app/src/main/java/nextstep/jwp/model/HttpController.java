@@ -56,11 +56,14 @@ public class HttpController {
     }
 
     private HttpResponse doRegister(HttpRequest httpRequest) {
-        return null;
+        userService.register(httpRequest.getBodyParam("account"),
+            httpRequest.getBodyParam("password"),
+            httpRequest.getBodyParam("email"));
+        return HttpResponse.redirect("static/index.html", httpRequest.getHttpVersion(), 302);
     }
 
     private HttpResponse doOtherMethod(HttpRequest httpRequest) {
-        return null;
+        return HttpResponse.notFound(httpRequest.getHttpVersion());
     }
 
     private byte[] getBodyFromPath(String filePath) {

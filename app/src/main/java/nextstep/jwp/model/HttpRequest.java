@@ -10,7 +10,7 @@ public class HttpRequest {
 
     private final HttpRequestLine requestLine;
     private final HttpHeaders headers;
-    private final String body;
+    private final HttpRequestBody body;
 
     public HttpRequest(InputStream inputStream) throws IOException {
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -23,7 +23,7 @@ public class HttpRequest {
     public HttpRequest(String requestLine, String[] headers, String body) {
         this.requestLine = new HttpRequestLine(requestLine);
         this.headers = new HttpHeaders(headers);
-        this.body = body;
+        this.body = new HttpRequestBody(body);
     }
 
     private HttpRequestLine readRequestLine(BufferedReader bufferedReader) throws IOException {
@@ -44,13 +44,13 @@ public class HttpRequest {
         return httpHeaders;
     }
 
-    private String readBody(BufferedReader bufferedReader) throws IOException {
+    private HttpRequestBody readBody(BufferedReader bufferedReader) throws IOException {
         String body = "";
         String line = bufferedReader.readLine();
         while (line != null) {
             body += (line + "\n");
         }
-        return body;
+        return new HttpRequestBody(body);
     }
 
     public boolean isGetRequest() {
@@ -73,12 +73,12 @@ public class HttpRequest {
         return this.requestLine.getPath();
     }
 
-    public String getParams() {
-        return this.requestLine.getParams();
-    }
-
     public String getParam(String name) {
         return this.requestLine.getParam(name);
+    }
+
+    public String getBodyParam(String name) {
+        return this.body.getBodyParam(name);
     }
 
     public String getHttpVersion() {

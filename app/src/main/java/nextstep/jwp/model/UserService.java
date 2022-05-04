@@ -1,6 +1,7 @@
 package nextstep.jwp.model;
 
 import nextstep.jwp.db.InMemoryUserRepository;
+import nextstep.jwp.exception.DuplicatedAccountException;
 import nextstep.jwp.exception.InvalidPasswordException;
 import nextstep.jwp.exception.UserNotFoundException;
 
@@ -9,8 +10,7 @@ public class UserService {
 
     public void login(String account, String password) {
         User user = InMemoryUserRepository.findByAccount(account)
-            .orElseThrow(
-                () -> new UserNotFoundException("User does not exist with account : " + account));
+            .orElseThrow(() -> new UserNotFoundException("User does not exist with account : " + account));
         checkPassword(user, password);
     }
 
@@ -20,8 +20,15 @@ public class UserService {
         }
     }
 
-    public void register(String account, String password) {
+    public void register(String account, String password, String email) {
+        checkDuplicated(account);
+        InMemoryUserRepository.save(new User(2, account, password, email));
+    }
 
+    private void checkDuplicated(String account) {
+        if (InMemoryUserRepository.existsByAccount(account)) {
+            throw new DuplicatedAccountException("This Account already exists. : " + account);
+        }
     }
 
 
