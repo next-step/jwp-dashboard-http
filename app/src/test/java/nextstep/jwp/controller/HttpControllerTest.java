@@ -1,18 +1,19 @@
-package nextstep.jwp.model;
+package nextstep.jwp.controller;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.IOException;
+import nextstep.jwp.controller.HttpController;
 import nextstep.jwp.exception.DuplicatedAccountException;
-import nextstep.jwp.model.httprequest.HttpRequest;
-import nextstep.jwp.model.httpresponse.HttpResponse;
+import nextstep.jwp.model.http.httprequest.HttpRequest;
+import nextstep.jwp.model.http.httpresponse.HttpResponse;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class HttpControllerTest {
 
-    private static final String DUPLICATED_ACCOUNT_EXCEPTION = "This Account already exists. : ";
+    private final String DUPLICATED_ACCOUNT_EXCEPTION = "This Account already exists. : ";
 
     private HttpController httpController = new HttpController();
 
@@ -76,6 +77,18 @@ class HttpControllerTest {
         assertThatThrownBy(() -> httpController.getResponse(request))
             .isInstanceOf(DuplicatedAccountException.class)
             .hasMessageContaining(DUPLICATED_ACCOUNT_EXCEPTION);
+    }
+
+    @Test
+    public void request_with_other_method() {
+        String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive "};
+        HttpRequest request = new HttpRequest("PUT /register HTTP/1.1 ", headers, "account=gugugu&password=password&email=hkkanging%40woowahan.com");
+        HttpResponse response = httpController.getResponse(request);
+        String expected = "HTTP/1.1 404 Not Found \r\n"
+            + "\r\n"
+            + "\r\n"
+            + "";
+        assertThat(response.toString()).isEqualTo(expected);
     }
 
 }
