@@ -10,7 +10,7 @@ public class HttpHeader {
         this.headerValue = headerValue;
     }
 
-    public static HttpHeader of(String headerLine){
+    public static HttpHeader of(String headerLine) {
         String[] headers = headerLine.split(": ");
         return new HttpHeader(HttpHeaderType.of(headers[0]), headers[1]);
     }
@@ -27,4 +27,8 @@ public class HttpHeader {
         return headerType.isEqualHeaderType(type);
     }
 
+    @Override
+    public String toString() {
+        return headerType + ": " + headerValue;
+    }
 }

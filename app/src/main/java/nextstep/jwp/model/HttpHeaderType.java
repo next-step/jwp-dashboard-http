@@ -33,4 +33,9 @@ public enum HttpHeaderType {
     public boolean isEqualHeaderType(String type) {
         return this.headerType.equals(type);
     }
+
+    @Override
+    public String toString() {
+        return  headerType;
+    }
 }
