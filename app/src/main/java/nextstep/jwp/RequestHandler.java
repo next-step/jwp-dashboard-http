@@ -1,8 +1,8 @@
 package nextstep.jwp;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import nextstep.jwp.model.HttpController;
 import nextstep.jwp.model.HttpRequest;
+import nextstep.jwp.model.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,9 +17,11 @@ public class RequestHandler implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
 
     private final Socket connection;
+    private final HttpController httpController;
 
     public RequestHandler(Socket connection) {
         this.connection = Objects.requireNonNull(connection);
+        this.httpController = new HttpController();
     }
 
     @Override
@@ -27,21 +29,13 @@ public class RequestHandler implements Runnable {
         log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(), connection.getPort());
 
         try (final InputStream inputStream = connection.getInputStream();
-             final OutputStream outputStream = connection.getOutputStream()) {
+            final OutputStream outputStream = connection.getOutputStream()) {
 
-            HttpRequest request = new HttpRequest(inputStream);
-
-            final String responseBody = "Hello world!";
-
-            final String response = String.join("\r\n",
-                    "HTTP/1.1 200 OK ",
-                    "Content-Type: text/html;charset=utf-8 ",
-                    "Content-Length: " + responseBody.getBytes().length + " ",
-                    "",
-                    responseBody);
-
-            outputStream.write(response.getBytes());
+            HttpRequest httpRequest = new HttpRequest(inputStream);
+            HttpResponse httpResponse = httpController.getResponse(httpRequest);
+            outputStream.write(httpResponse.getBytes());
             outputStream.flush();
+
         } catch (IOException exception) {
             log.error("Exception stream", exception);
         } finally {
@@ -56,4 +50,5 @@ public class RequestHandler implements Runnable {
             log.error("Exception closing socket", exception);
         }
     }
+
 }
