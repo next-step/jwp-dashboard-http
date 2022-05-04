@@ -18,7 +18,7 @@ import java.util.Objects;
 
 public class RequestHandler implements Runnable {
 
-    private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
     private final Socket connection;
     private final HttpController httpController;
@@ -30,18 +30,19 @@ public class RequestHandler implements Runnable {
 
     @Override
     public void run() {
-        log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
+        logger.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
             connection.getPort());
 
         try (final InputStream inputStream = connection.getInputStream(); final OutputStream outputStream = connection.getOutputStream()) {
             HttpRequest httpRequest = new HttpRequest(inputStream);
+            logger.info("Http Request {}", httpRequest.toString());
             HttpResponse httpResponse = httpController.getResponse(httpRequest);
-            System.out.println(httpResponse.toString());
+            logger.info("Http Response {}", httpResponse.toString());
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
             bufferedOutputStream.write(httpResponse.toBytes());
             bufferedOutputStream.flush();
         } catch (IOException exception) {
-            log.error("Exception stream", exception);
+            logger.error("Exception stream", exception);
         } finally {
             close();
         }
@@ -51,7 +52,7 @@ public class RequestHandler implements Runnable {
         try {
             connection.close();
         } catch (IOException exception) {
-            log.error("Exception closing socket", exception);
+            logger.error("Exception closing socket", exception);
         }
     }
 
