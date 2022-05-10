@@ -1,11 +1,10 @@
 package nextstep.jwp;
 
 import java.io.BufferedOutputStream;
-import nextstep.jwp.controller.HttpController;
+//import nextstep.jwp.controller.HttpController;
+import nextstep.jwp.mapper.RequestMapper;
 import nextstep.jwp.model.http.httprequest.HttpRequest;
 import nextstep.jwp.model.http.httpresponse.HttpResponse;
-import nextstep.jwp.service.ETagService;
-import nextstep.jwp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,11 +19,9 @@ public class RequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
     private final Socket connection;
-    private final HttpController httpController;
 
     public RequestHandler(Socket connection) {
         this.connection = Objects.requireNonNull(connection);
-        this.httpController = new HttpController(new UserService(), new ETagService());
     }
 
     @Override
@@ -35,7 +32,7 @@ public class RequestHandler implements Runnable {
         try (final InputStream inputStream = connection.getInputStream(); final OutputStream outputStream = connection.getOutputStream()) {
             HttpRequest httpRequest = new HttpRequest(inputStream);
             logger.info("Http Request {}", httpRequest.toString());
-            HttpResponse httpResponse = httpController.getResponse(httpRequest);
+            HttpResponse httpResponse = RequestMapper.of(httpRequest.getPath()).service(httpRequest);
             logger.info("Http Response {}", httpResponse.toString());
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
             bufferedOutputStream.write(httpResponse.toBytes());
