@@ -10,10 +10,11 @@ class HttpResponseTest {
 
     @Test
     public void create_ok_response() {
-        HttpResponse response = HttpResponse.ok("html", "HTTP/1.1", "nextstep".getBytes());
+        HttpResponse response = HttpResponse.ok("html", "HTTP/1.1", "nextstep".getBytes(), "abc");
         String expected = "HTTP/1.1 200 OK \r\n"
             + "Content-Type: text/html;charset=utf-8 \r\n"
             + "Content-Length: 8 \r\n"
+            + "ETag: abc \r\n"
             + "\r\n"
             + "nextstep";
         assertThat(response.toString()).isEqualTo(expected);
@@ -27,6 +28,17 @@ class HttpResponseTest {
             + "\r\n"
             + "";
         assertThat(response.toString()).isEqualTo(expected);
+    }
+
+    @Test
+    public void create_not_modified_response() {
+        HttpResponse response = HttpResponse.notModified("HTTP/1.1", new byte[0], "abc");
+        String expected = "HTTP/1.1 304 Not Modified \r\n"
+            + "ETag: abc \r\n"
+            + "\r\n"
+            + "";
+        assertThat(response.toString()).isEqualTo(expected);
+
     }
 
 }
