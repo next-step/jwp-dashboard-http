@@ -16,9 +16,9 @@ public class RequestMaps {
 
     static {
         maps = new LinkedHashSet<>(Arrays.asList(
+            RequestMap.of("/", new ResourceController(new ETagService())),
             RequestMap.of("/login", new LoginController()),
-            RequestMap.of("/register", new RegisterController()),
-            RequestMap.of("/", new ResourceController(new ETagService()))));
+            RequestMap.of("/register", new RegisterController())));
     }
 
     public RequestMaps() {

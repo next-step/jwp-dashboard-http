@@ -72,12 +72,12 @@ public class HttpRequest {
         return this.requestLine.getHttpVersion();
     }
 
-    public boolean hasETag() {
-        return this.headers.hasETag();
+    public boolean hasIfNoneMatch() {
+        return this.headers.hasIfNoneMatch();
     }
 
-    public String getETag() {
-        return this.headers.getETag();
+    public String getIfNoneMatch() {
+        return this.headers.getIfNoneMatch();
     }
 
     @Override

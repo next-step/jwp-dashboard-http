@@ -33,7 +33,7 @@ class HttpResponseTest {
 
     @Test
     public void create_not_modified_response() {
-        HttpResponse response = HttpResponse.notModified("HTTP/1.1", new byte[0], "abc");
+        HttpResponse response = HttpResponse.notModified("HTTP/1.1", "abc");
         String expected = "HTTP/1.1 304 Not Modified \r\n"
             + "ETag: abc \r\n"
             + "\r\n"

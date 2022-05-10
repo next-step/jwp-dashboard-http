@@ -51,14 +51,14 @@ public class HttpHeaders {
             .orElse(0);
     }
 
-    public boolean hasETag() {
+    public boolean hasIfNoneMatch() {
         return headers.stream()
-            .anyMatch(httpHeader -> httpHeader.isETag());
+            .anyMatch(httpHeader -> httpHeader.isIfNoneMatch());
     }
 
-    public String getETag() {
+    public String getIfNoneMatch() {
         return headers.stream()
-            .filter(httpHeader -> httpHeader.isETag())
+            .filter(httpHeader -> httpHeader.isIfNoneMatch())
             .findFirst()
             .orElseThrow(() -> new RuntimeException("ETag does not exist in request headers"))
             .getHeaderValue();

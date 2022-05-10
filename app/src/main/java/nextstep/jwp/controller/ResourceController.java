@@ -26,8 +26,8 @@ public class ResourceController extends AbstractController {
         URL resource = getURL(request.getPath());
         String eTag = getETag(resource);
         byte[] body = getBodyFromURL(resource);
-        if (hasETagAndIsMatch(request, eTag)) {
-            return HttpResponse.notModified(request.getHttpVersion(), body, request.getETag());
+        if (hasIfNoneMatchAndIsMatch(request, eTag)) {
+            return HttpResponse.notModified(request.getHttpVersion(), request.getIfNoneMatch());
         }
         return HttpResponse.ok(request.getPath(), request.getHttpVersion(), body, eTag);
     }
@@ -36,12 +36,12 @@ public class ResourceController extends AbstractController {
         return etagService.getETag(resource.getPath());
     }
 
-    private boolean hasETagAndIsMatch(HttpRequest httpRequest, String eTag) {
-        return httpRequest.hasETag() && isMatchETag(httpRequest.getETag(), eTag);
+    private boolean hasIfNoneMatchAndIsMatch(HttpRequest httpRequest, String eTag) {
+        return httpRequest.hasIfNoneMatch() && isMatchETag(httpRequest.getIfNoneMatch(), eTag);
     }
 
-    private boolean isMatchETag(String requestETag, String ETag) {
-        return requestETag.equals(ETag);
+    private boolean isMatchETag(String ifNoneMatch, String ETag) {
+        return ifNoneMatch.equals(ETag);
     }
 
     private byte[] getBodyFromURL(URL resource) {

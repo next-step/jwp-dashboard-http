@@ -29,7 +29,8 @@ public enum HttpHeaderType {
     PRAGMA("Pragma"),
     REFERER("Referer"),
     ORIGIN("Origin"),
-    E_TAG("ETag");
+    E_TAG("ETag"),
+    IF_NONE_MATCH("If-None-Match");
 
 
     private final String headerType;

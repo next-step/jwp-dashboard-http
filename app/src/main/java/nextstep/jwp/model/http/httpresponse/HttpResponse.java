@@ -20,8 +20,8 @@ public class HttpResponse {
         return httpResponse;
     }
 
-    public static HttpResponse notModified(String httpVersion, byte[] body, String eTag) {
-        HttpResponse httpResponse = new HttpResponse(new HttpStatusLine(httpVersion, 304), body);
+    public static HttpResponse notModified(String httpVersion, String eTag) {
+        HttpResponse httpResponse = new HttpResponse(new HttpStatusLine(httpVersion, 304), new byte[0]);
         httpResponse.addNotModifiedHeader(eTag);
         return httpResponse;
     }
@@ -43,14 +43,7 @@ public class HttpResponse {
     private void addOkHeader(String type, String eTag) {
         httpHeaders.addContentTypeHeader(type);
         httpHeaders.addContentLengthHeader(this.body.length);
-        if (isEncodedType(type)) {
-            httpHeaders.addContentEncodingHeader("gzip");
-        }
         httpHeaders.addETagHeader(eTag);
-    }
-
-    private boolean isEncodedType(String type) {
-        return type.endsWith("html") || type.endsWith("css") || type.endsWith("js");
     }
 
     private void addNotModifiedHeader(String eTag) {

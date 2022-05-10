@@ -53,3 +53,13 @@ ByteArrayOutputStream: 메모리의 바이트 배열에 데이터를 쓴다.Buff
 ```
 브라우저 탭의 작은 아이콘을 불러오기 위해 자동으로 GET favicon.ico request를 보낸다. 
 ```
+
+
+## STEP 1
+- RequestMapper를 이용하여 요청 URI에 따라서 Controller 다르게 사용하도록 구현
+
+- E-Tag를 생성해보고 E-Tag와 함께 요청이 오면 E-Tag를 이용하여 변경 여부를 확인 후 동일하면 그대로 304 Not Modified응답을, 변경되거나 캐시에 없으면 200 Ok 요청과 함께 body를 응답
+![](https://user-images.githubusercontent.com/63947424/167609637-3efeab43-7a36-4fda-9bc5-623f6677b1f3.png)
+![](https://user-images.githubusercontent.com/63947424/167609641-cc02da38-f255-477d-90ac-1aef1e8ac78f.png)
+
+

@@ -33,14 +33,6 @@ public class HttpUrl {
         return this.params.getParam(name);
     }
 
-    public boolean isLoginRequest() {
-        return this.path.endsWith("login");
-    }
-
-    public boolean isRegisterRequest() {
-        return this.path.endsWith("register");
-    }
-
     @Override
     public String toString() {
         if (params.isEmpty()) {
