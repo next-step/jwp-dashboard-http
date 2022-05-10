@@ -3,10 +3,12 @@ package nextstep.jwp.controller;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.IOException;
+import nextstep.jwp.MockETagService;
 import nextstep.jwp.exception.DuplicatedAccountException;
 import nextstep.jwp.exception.InvalidUrlException;
 import nextstep.jwp.model.http.httprequest.HttpRequest;
 import nextstep.jwp.model.http.httpresponse.HttpResponse;
+import nextstep.jwp.service.UserService;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,30 +18,58 @@ class HttpControllerTest {
     private final String DUPLICATED_ACCOUNT_EXCEPTION = "This Account already exists. : ";
     private final String INVALID_URL_EXCEPTION = "This url does not exist. :";
 
-    private HttpController httpController = new HttpController();
-
+    private HttpController httpController = new HttpController(new UserService(), new MockETagService());
 
     @Test
-    public void get_method_response() throws IOException {
+    public void get_method_response() {
         String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive "};
         HttpRequest request = new HttpRequest("GET /index.html HTTP/1.1 ", headers, "");
         HttpResponse response = httpController.getResponse(request);
         String expected = "HTTP/1.1 200 OK \r\n"
             + "Content-Type: text/html;charset=utf-8 \r\n"
             + "Content-Length: 12 \r\n"
+            + "ETag: abc \r\n"
             + "\r\n"
             + "Hello world!";
         assertThat(response.toString()).isEqualTo(expected);
     }
 
     @Test
-    public void get_method_css_type_response() throws IOException {
+    public void get_method_with_not_modified_eTag() {
+        String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive ", "ETag: abc"};
+        HttpRequest request = new HttpRequest("GET /index.html HTTP/1.1 ", headers, "");
+        HttpResponse response = httpController.getResponse(request);
+        String expected = "HTTP/1.1 304 Not Modified \r\n"
+            + "ETag: abc \r\n"
+            + "\r\n"
+            + "Hello world!";
+        assertThat(response.toString()).isEqualTo(expected);
+    }
+
+    @Test
+    public void get_method_with_modified_eTag() {
+        String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive ", "ETag: def"};
+        HttpRequest request = new HttpRequest("GET /index.html HTTP/1.1 ", headers, "");
+        HttpResponse response = httpController.getResponse(request);
+        String expected = "HTTP/1.1 200 OK \r\n"
+            + "Content-Type: text/html;charset=utf-8 \r\n"
+            + "Content-Length: 12 \r\n"
+            + "ETag: abc \r\n"
+            + "\r\n"
+            + "Hello world!";
+        assertThat(response.toString()).isEqualTo(expected);
+    }
+
+
+    @Test
+    public void get_method_css_type_response() {
         String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive ", "Accept: text/css,*/*;q=0.1"};
         HttpRequest request = new HttpRequest("GET /css/styles.css HTTP/1.1 ", headers, "");
         HttpResponse response = httpController.getResponse(request);
         String expected = "HTTP/1.1 200 OK \r\n"
             + "Content-Type: text/css \r\n"
             + "Content-Length: 6 \r\n"
+            + "ETag: abc \r\n"
             + "\r\n"
             + "styles";
         assertThat(response.toString()).isEqualTo(expected);
