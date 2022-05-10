@@ -1,12 +1,11 @@
 package nextstep.jwp;
 
 import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
-import java.util.List;
 import nextstep.jwp.controller.HttpController;
-import nextstep.jwp.model.http.HttpHeader;
 import nextstep.jwp.model.http.httprequest.HttpRequest;
 import nextstep.jwp.model.http.httpresponse.HttpResponse;
+import nextstep.jwp.service.ETagService;
+import nextstep.jwp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +24,7 @@ public class RequestHandler implements Runnable {
 
     public RequestHandler(Socket connection) {
         this.connection = Objects.requireNonNull(connection);
-        this.httpController = new HttpController();
+        this.httpController = new HttpController(new UserService(), new ETagService());
     }
 
     @Override

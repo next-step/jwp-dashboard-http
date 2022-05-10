@@ -14,9 +14,15 @@ public class HttpResponse {
         this.body = body;
     }
 
-    public static HttpResponse ok(String type, String httpVersion, byte[] body) {
+    public static HttpResponse ok(String type, String httpVersion, byte[] body, String eTag) {
         HttpResponse httpResponse = new HttpResponse(new HttpStatusLine(httpVersion, 200), body);
-        httpResponse.addOkHeader(type);
+        httpResponse.addOkHeader(type, eTag);
+        return httpResponse;
+    }
+
+    public static HttpResponse notModified(String httpVersion, byte[] body, String eTag) {
+        HttpResponse httpResponse = new HttpResponse(new HttpStatusLine(httpVersion, 304), body);
+        httpResponse.addNotModifiedHeader(eTag);
         return httpResponse;
     }
 
@@ -30,9 +36,14 @@ public class HttpResponse {
         return new HttpResponse(new HttpStatusLine(httpVersion, 404), new byte[0]);
     }
 
-    private void addOkHeader(String type) {
+    private void addOkHeader(String type, String eTag) {
         httpHeaders.addContentTypeHeader(type);
         httpHeaders.addContentLengthHeader(this.body.length);
+        httpHeaders.addEtagHeader(eTag);
+    }
+
+    private void addNotModifiedHeader(String eTag) {
+        httpHeaders.addEtagHeader(eTag);
     }
 
     private void addFoundHeader(String url) {

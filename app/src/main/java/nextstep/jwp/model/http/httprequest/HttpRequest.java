@@ -84,6 +84,14 @@ public class HttpRequest {
         return this.requestLine.getHttpVersion();
     }
 
+    public boolean hasETag() {
+        return this.headers.hasETag();
+    }
+
+    public String getETag() {
+        return this.headers.getETag();
+    }
+
     @Override
     public String toString() {
         return requestLine + "\r\n" + headers + "\r\n" + body;
