@@ -15,22 +15,6 @@ public class HttpRequestLine {
         this.httpVersion = HttpVersion.of(request[2]);
     }
 
-    public boolean isGetRequest() {
-        return this.httpMethod.equals(HttpMethod.GET);
-    }
-
-    public boolean isPostRequest() {
-        return this.httpMethod.equals(HttpMethod.POST);
-    }
-
-    public boolean isLoginRequest() {
-        return this.httpUrl.isLoginRequest();
-    }
-
-    public boolean isRegisterRequest() {
-        return this.httpUrl.isRegisterRequest();
-    }
-
     public String getPath() {
         return this.httpUrl.getPath();
     }
@@ -41,6 +25,10 @@ public class HttpRequestLine {
 
     public String getHttpVersion() {
         return this.httpVersion.getHttpVersion();
+    }
+
+    public HttpMethod getHttpMethod() {
+        return this.httpMethod;
     }
 
     @Override

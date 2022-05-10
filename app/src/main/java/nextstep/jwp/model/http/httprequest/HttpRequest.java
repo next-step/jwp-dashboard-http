@@ -52,20 +52,8 @@ public class HttpRequest {
         return new HttpRequestBody(new String(buffer));
     }
 
-    public boolean isGetRequest() {
-        return this.requestLine.isGetRequest();
-    }
-
-    public boolean isPostRequest() {
-        return this.requestLine.isPostRequest();
-    }
-
-    public boolean isLoginRequest() {
-        return this.requestLine.isLoginRequest();
-    }
-
-    public boolean isRegisterRequest() {
-        return this.requestLine.isRegisterRequest();
+    public HttpMethod getMethod() {
+        return this.requestLine.getHttpMethod();
     }
 
     public String getPath() {

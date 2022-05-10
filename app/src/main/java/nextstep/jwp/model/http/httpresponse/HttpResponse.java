@@ -36,6 +36,10 @@ public class HttpResponse {
         return new HttpResponse(new HttpStatusLine(httpVersion, 404), new byte[0]);
     }
 
+    public static HttpResponse none() {
+        return new HttpResponse(new HttpStatusLine("HTTP/1.1", 204), new byte[0]);
+    }
+
     private void addOkHeader(String type, String eTag) {
         httpHeaders.addContentTypeHeader(type);
         httpHeaders.addContentLengthHeader(this.body.length);
