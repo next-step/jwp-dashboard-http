@@ -26,6 +26,10 @@ public class HttpHeader {
         return this.headerType.equals(HttpHeaderType.CONTENT_LENGTH);
     }
 
+    public boolean isETag() {
+        return this.headerType.equals(HttpHeaderType.E_TAG);
+    }
+
 
     public String getHeaderValue() {
         return headerValue;

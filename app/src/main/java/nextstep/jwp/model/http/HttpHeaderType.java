@@ -27,7 +27,8 @@ public enum HttpHeaderType {
     COOKIE("Cookie"),
     PRAGMA("Pragma"),
     REFERER("Referer"),
-    ORIGIN("Origin");
+    ORIGIN("Origin"),
+    E_TAG("ETag");
 
 
     private final String headerType;
