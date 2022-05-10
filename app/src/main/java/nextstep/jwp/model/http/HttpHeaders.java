@@ -25,8 +25,7 @@ public class HttpHeaders {
     }
 
     public void addContentTypeHeader(String type) {
-        addHeader(HttpHeaderType.CONTENT_TYPE.getHeaderType() + ": " + ContentType.contentType(type)
-            + " ");
+        addHeader(HttpHeaderType.CONTENT_TYPE.getHeaderType() + ": " + ContentType.contentType(type) + " ");
     }
 
     public void addContentLengthHeader(int contentLength) {
@@ -37,8 +36,12 @@ public class HttpHeaders {
         addHeader(HttpHeaderType.LOCATION.getHeaderType() + ": " + location + " ");
     }
 
-    public void addEtagHeader(String etag) {
-        addHeader(HttpHeaderType.E_TAG.getHeaderType() + ": " + etag + " ");
+    public void addETagHeader(String eTag) {
+        addHeader(HttpHeaderType.E_TAG.getHeaderType() + ": " + eTag + " ");
+    }
+
+    public void addContentEncodingHeader(String encodingType) {
+        addHeader(HttpHeaderType.CONTENT_ENCODING.getHeaderType() + ": " + encodingType + " ");
     }
 
     public Integer getContentLength() {

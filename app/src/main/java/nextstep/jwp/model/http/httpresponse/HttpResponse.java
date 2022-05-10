@@ -39,11 +39,18 @@ public class HttpResponse {
     private void addOkHeader(String type, String eTag) {
         httpHeaders.addContentTypeHeader(type);
         httpHeaders.addContentLengthHeader(this.body.length);
-        httpHeaders.addEtagHeader(eTag);
+        if (isEncodedType(type)) {
+            httpHeaders.addContentEncodingHeader("gzip");
+        }
+        httpHeaders.addETagHeader(eTag);
+    }
+
+    private boolean isEncodedType(String type) {
+        return type.endsWith("html") || type.endsWith("css") || type.endsWith("js");
     }
 
     private void addNotModifiedHeader(String eTag) {
-        httpHeaders.addEtagHeader(eTag);
+        httpHeaders.addETagHeader(eTag);
     }
 
     private void addFoundHeader(String url) {

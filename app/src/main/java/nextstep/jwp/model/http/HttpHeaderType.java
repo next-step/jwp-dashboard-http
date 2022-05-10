@@ -8,6 +8,7 @@ public enum HttpHeaderType {
     CONNECTION("Connection"),
     CONTENT_TYPE("Content-Type"),
     CONTENT_LENGTH("Content-Length"),
+    CONTENT_ENCODING("Content-Encoding"),
     LOCATION("Location"),
     HOST("Host"),
     ACCEPT("Accept"),
