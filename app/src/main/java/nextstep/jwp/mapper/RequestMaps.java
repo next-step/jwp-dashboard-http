@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import nextstep.jwp.controller.Controller;
+import nextstep.jwp.controller.DefaultController;
 import nextstep.jwp.controller.LoginController;
 import nextstep.jwp.controller.RegisterController;
 import nextstep.jwp.controller.ResourceController;
@@ -18,7 +19,8 @@ public class RequestMaps {
         maps = new LinkedHashSet<>(Arrays.asList(
             RequestMap.of("/", new ResourceController(new ETagService())),
             RequestMap.of("/login", new LoginController()),
-            RequestMap.of("/register", new RegisterController())));
+            RequestMap.of("/register", new RegisterController()),
+            RequestMap.of("", new DefaultController())));
     }
 
     public RequestMaps() {

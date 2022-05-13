@@ -1,7 +1,12 @@
 package nextstep.jwp.model.http.httpresponse;
 
+import java.io.File;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import nextstep.jwp.model.http.HttpHeaders;
+import nextstep.jwp.service.FileService;
 
 public class HttpResponse {
 
@@ -32,12 +37,17 @@ public class HttpResponse {
         return httpResponse;
     }
 
-    public static HttpResponse notFound(String httpVersion) {
-        return new HttpResponse(new HttpStatusLine(httpVersion, 404), new byte[0]);
+    public static HttpResponse unAuthorized(String httpVersion) {
+        HttpResponse httpResponse = new HttpResponse(new HttpStatusLine(httpVersion, 401), FileService.getBodyFromPath("/401.html"));
+        return httpResponse;
     }
 
-    public static HttpResponse none() {
-        return new HttpResponse(new HttpStatusLine("HTTP/1.1", 204), new byte[0]);
+    public static HttpResponse notFound(String httpVersion) {
+        return new HttpResponse(new HttpStatusLine(httpVersion, 404), FileService.getBodyFromPath("/404.html"));
+    }
+
+    public static HttpResponse methodNotAllowed() {
+        return new HttpResponse(new HttpStatusLine("HTTP/1.1", 405), new byte[0]);
     }
 
     private void addOkHeader(String type, String eTag) {

@@ -20,7 +20,7 @@ public class LoginController extends AbstractController {
             return HttpResponse.redirect("/index.html", request.getHttpVersion(), 302);
         } catch (InvalidPasswordException e) {
             logger.info(e.getMessage());
-            return HttpResponse.redirect("/401.html", request.getHttpVersion(), 401);
+            return HttpResponse.unAuthorized(request.getHttpVersion());
         }
     }
 }
