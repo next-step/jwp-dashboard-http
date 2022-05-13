@@ -14,7 +14,6 @@ class HttpResponseTest {
         String expected = "HTTP/1.1 200 OK \r\n"
             + "Content-Type: text/html;charset=utf-8 \r\n"
             + "Content-Length: 8 \r\n"
-            + "Content-Encoding: gzip \r\n"
             + "ETag: abc \r\n"
             + "\r\n"
             + "nextstep";

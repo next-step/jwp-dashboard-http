@@ -26,6 +26,7 @@ class RequestHandlerTest {
             "HTTP/1.1 200 OK ",
             "Content-Type: text/html;charset=utf-8 ",
             "Content-Length: 12 ",
+            "ETag: 1861fb12619d11910d12c1851f61e014618c1ec1a412a120 ",
             "",
             "Hello world!");
         assertThat(socket.output()).isEqualTo(expected);
