@@ -1,13 +1,10 @@
 package nextstep.jwp.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import nextstep.jwp.model.http.httprequest.HttpRequest;
 import nextstep.jwp.model.http.httpresponse.HttpResponse;
 import nextstep.jwp.service.ETagService;
+import nextstep.jwp.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,9 +20,9 @@ public class ResourceController extends AbstractController {
 
     @Override
     protected HttpResponse doGet(HttpRequest request) {
-        URL resource = getURL(request.getPath());
+        URL resource = FileService.getURL(request.getPath());
         String eTag = getETag(resource);
-        byte[] body = getBodyFromURL(resource);
+        byte[] body = FileService.getBodyFromURL(resource);
         if (hasIfNoneMatchAndIsMatch(request, eTag)) {
             return HttpResponse.notModified(request.getHttpVersion(), request.getIfNoneMatch());
         }
@@ -42,20 +39,6 @@ public class ResourceController extends AbstractController {
 
     private boolean isMatchETag(String ifNoneMatch, String ETag) {
         return ifNoneMatch.equals(ETag);
-    }
-
-    private byte[] getBodyFromURL(URL resource) {
-        try {
-            final Path path = new File(resource.getFile()).toPath();
-            return Files.readAllBytes(path);
-        } catch (IOException e) {
-            logger.info(e.getMessage());
-        }
-        return new byte[0];
-    }
-
-    private URL getURL(String filePath) {
-        return Thread.currentThread().getContextClassLoader().getResource("static" + filePath);
     }
 
 }
