@@ -26,22 +26,35 @@ public class RequestHandler implements Runnable {
 
     @Override
     public void run() {
-        logger.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
-            connection.getPort());
-
+        logger.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(), connection.getPort());
         try (final InputStream inputStream = connection.getInputStream(); final OutputStream outputStream = connection.getOutputStream()) {
-            HttpRequest httpRequest = new HttpRequest(inputStream);
-            logger.info("Http Request {}", httpRequest.toString());
-            HttpResponse httpResponse = RequestMapper.of(httpRequest.getPath()).service(httpRequest);
-            logger.info("Http Response {}", httpResponse.toString());
-            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
-            bufferedOutputStream.write(httpResponse.toBytes());
-            bufferedOutputStream.flush();
+            readAndWrite(inputStream, outputStream);
         } catch (IOException exception) {
             logger.error("Exception stream", exception);
         } finally {
             close();
         }
+    }
+
+    private void readAndWrite(InputStream inputStream, OutputStream outputStream) throws IOException {
+        if (inputStream != null) {
+            HttpRequest request = read(inputStream);
+            write(outputStream, request);
+        }
+    }
+
+    private HttpRequest read(InputStream inputStream) throws IOException {
+        HttpRequest httpRequest = new HttpRequest(inputStream);
+        logger.info("Http Request {}", httpRequest.toString());
+        return httpRequest;
+    }
+
+    private void write(OutputStream outputStream, HttpRequest httpRequest) throws IOException {
+        HttpResponse httpResponse = RequestMapper.of(httpRequest.getPath()).service(httpRequest);
+        logger.info("Http Response {}", httpResponse.toString());
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
+        bufferedOutputStream.write(httpResponse.toBytes());
+        bufferedOutputStream.flush();
     }
 
     private void close() {
