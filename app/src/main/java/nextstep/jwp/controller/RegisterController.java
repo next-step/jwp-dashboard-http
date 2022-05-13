@@ -16,4 +16,8 @@ public class RegisterController extends AbstractController {
         return HttpResponse.redirect("/index.html", request.getHttpVersion(), 302);
     }
 
+    @Override
+    protected HttpResponse doGet(HttpRequest request) {
+        return HttpResponse.notFound(request.getHttpVersion());
+    }
 }

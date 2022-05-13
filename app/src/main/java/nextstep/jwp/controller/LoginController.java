@@ -23,4 +23,9 @@ public class LoginController extends AbstractController {
             return HttpResponse.unAuthorized(request.getHttpVersion());
         }
     }
+
+    @Override
+    protected HttpResponse doGet(HttpRequest request) {
+        return HttpResponse.notFound(request.getHttpVersion());
+    }
 }
