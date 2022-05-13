@@ -71,7 +71,7 @@ class ResourceControllerTest {
         String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive "};
         HttpRequest request = new HttpRequest("PUT /register HTTP/1.1 ", headers, "account=gugugu&password=password&email=hkkanging%40woowahan.com");
         HttpResponse response = controller.service(request);
-        String expected = "HTTP/1.1 404 Not Found \r\n"
+        String expected = "HTTP/1.1 405 Method Not Allowed \r\n"
             + "\r\n"
             + "\r\n"
             + "";

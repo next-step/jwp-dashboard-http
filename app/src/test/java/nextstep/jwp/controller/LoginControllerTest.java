@@ -29,9 +29,9 @@ class LoginControllerTest {
         HttpRequest request = new HttpRequest("POST /login?account=gugu&password=invalidPassword HTTP/1.1 ", headers, "account=gugu&password=invalidPassword");
         HttpResponse response = controller.service(request);
         String expected = "HTTP/1.1 401 Unauthorized \r\n"
-            + "Location: /401.html \r\n"
             + "\r\n"
-            + "";
+            + "\r\n"
+            + "401 UnAuthorized";
         assertThat(response.toString()).isEqualTo(expected);
     }
 

@@ -19,7 +19,7 @@ class HttpStatusCodeTest {
 
     @Test
     public void find_status_code_with_invalid_code_number() {
-        assertThatThrownBy(() -> HttpStatusCode.of(405))
+        assertThatThrownBy(() -> HttpStatusCode.of(800))
             .isInstanceOf(StatusCodeNotFoundException.class)
             .hasMessageContaining(STATUS_CODE_NOT_FOUND_EXCEPTION);
     }
