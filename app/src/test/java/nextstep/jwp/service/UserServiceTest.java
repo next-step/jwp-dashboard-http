@@ -1,9 +1,9 @@
 package nextstep.jwp.service;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import nextstep.jwp.controller.generator.CertainStringGenerator;
 import nextstep.jwp.db.InMemoryUserRepository;
 import nextstep.jwp.exception.DuplicatedAccountException;
 import nextstep.jwp.exception.InvalidPasswordException;
@@ -19,7 +19,7 @@ class UserServiceTest {
     private final String INVALID_PASSWORD_EXCEPTION = "Password is invalid";
     private final String DUPLICATED_ACCOUNT_EXCEPTION = "This Account already exists. : ";
 
-    private UserService userService = new UserService();
+    private UserService userService = new UserService(new CertainStringGenerator());
 
     @Test
     public void login_with_not_registered_account() {

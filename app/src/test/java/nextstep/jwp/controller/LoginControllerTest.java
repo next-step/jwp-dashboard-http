@@ -1,15 +1,15 @@
 package nextstep.jwp.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
+import nextstep.jwp.controller.generator.CertainStringGenerator;
 import nextstep.jwp.model.http.httprequest.HttpRequest;
 import nextstep.jwp.model.http.httpresponse.HttpResponse;
 import org.junit.jupiter.api.Test;
 
 class LoginControllerTest {
 
-    private final Controller controller = new LoginController();
+    private final Controller controller = new LoginController(new CertainStringGenerator());
 
     @Test
     public void post_method_login_response() {
@@ -18,6 +18,7 @@ class LoginControllerTest {
         HttpResponse response = controller.service(request);
         String expected = "HTTP/1.1 302 Found \r\n"
             + "Location: /index.html \r\n"
+            + "Set-Cookie: JSESSIONID=J_SESSION_ID \r\n"
             + "\r\n"
             + "";
         assertThat(response.toString()).isEqualTo(expected);
