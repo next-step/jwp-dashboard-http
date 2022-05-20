@@ -2,8 +2,8 @@ package nextstep.jwp.model.http;
 
 import java.util.ArrayList;
 import java.util.List;
+import nextstep.jwp.controller.generator.StringGenerator;
 import nextstep.jwp.exception.SessionNotFoundException;
-import nextstep.jwp.model.User;
 
 public class HttpSessions {
 
@@ -13,11 +13,17 @@ public class HttpSessions {
     }
 
     public static HttpSessions of() {
-        return new HttpSessions();
+        return InClassInstance.instance;
     }
 
-    public void addSession() {
-        this.httpSessions.add(HttpSession.of());
+    private static class InClassInstance {
+        private static final HttpSessions instance = new HttpSessions();
+    }
+
+    public HttpSession addSession(StringGenerator stringGenerator) {
+        HttpSession httpSession = HttpSession.of(stringGenerator);
+        this.httpSessions.add(httpSession);
+        return httpSession;
     }
 
     public HttpSession getSession(String id) {
