@@ -3,6 +3,7 @@ package nextstep.jwp.controller;
 import java.net.URL;
 import nextstep.jwp.model.http.httprequest.HttpRequest;
 import nextstep.jwp.model.http.httpresponse.HttpResponse;
+import nextstep.jwp.model.http.httpsession.HttpSessions;
 import nextstep.jwp.service.ETagService;
 import nextstep.jwp.service.FileService;
 import org.slf4j.Logger;
@@ -49,7 +50,7 @@ public class ResourceController extends AbstractController {
     }
 
     private boolean isLoginAlready(HttpRequest request) {
-        return request.hasSessionIdCookie();
+        return (request.hasSessionIdCookie()) && (HttpSessions.of().hasSession(request.getSessionId()));
     }
 
 }

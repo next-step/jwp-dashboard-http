@@ -17,6 +17,7 @@ public class HttpSessions {
     }
 
     private static class InClassInstance {
+
         private static final HttpSessions instance = new HttpSessions();
     }
 
@@ -24,6 +25,11 @@ public class HttpSessions {
         HttpSession httpSession = HttpSession.of(stringGenerator);
         this.httpSessions.add(httpSession);
         return httpSession;
+    }
+
+    public boolean hasSession(String sessionId) {
+        return httpSessions.stream()
+            .anyMatch(h -> h.isSession(sessionId));
     }
 
 }

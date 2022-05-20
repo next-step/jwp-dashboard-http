@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import nextstep.jwp.exception.CookieNotFoundException;
 
 public class HttpHeaders {
 
@@ -54,6 +55,14 @@ public class HttpHeaders {
     public boolean hasSessionIdCookie() {
         return headers.stream()
             .anyMatch(httpHeader -> httpHeader.hasSessionIdCookie());
+    }
+
+    public String getSessionId() {
+        return headers.stream()
+            .filter(httpHeader -> httpHeader.hasSessionIdCookie())
+            .findFirst()
+            .orElseThrow(() -> new CookieNotFoundException("Cookie SessionId does not exist in request headers"))
+            .getSessionId();
     }
 
     @Override

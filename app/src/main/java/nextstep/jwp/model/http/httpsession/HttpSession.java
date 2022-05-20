@@ -72,4 +72,8 @@ public class HttpSession {
     public List<HttpSessionObject> getSessionObjects() {
         return Collections.unmodifiableList(sessionObjects);
     }
+
+    public boolean isSession(String sessionId) {
+        return this.id.equals(sessionId);
+    }
 }

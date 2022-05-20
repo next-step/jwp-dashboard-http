@@ -14,7 +14,7 @@ public class HttpCookie {
 
     public static HttpCookie of(String cookie) {
         String[] cookieKeyAndValue = cookie.split("=");
-        return new HttpCookie(cookieKeyAndValue[0], cookieKeyAndValue[1]);
+        return new HttpCookie(cookieKeyAndValue[0], cookieKeyAndValue[1].replace(" ", ""));
     }
 
     public static HttpCookie sessionCookie(String sessionId) {

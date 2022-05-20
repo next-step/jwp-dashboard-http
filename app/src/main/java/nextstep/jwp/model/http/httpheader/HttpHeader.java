@@ -36,6 +36,10 @@ public class HttpHeader {
         return this.headerType.equals(HttpHeaderType.COOKIE) && HttpCookies.of(headerValue).hasSessionIdCookie();
     }
 
+    public String getSessionId() {
+        return HttpCookies.of(headerValue).getSessionId();
+    }
+
 
     public String getHeaderValue() {
         return headerValue;

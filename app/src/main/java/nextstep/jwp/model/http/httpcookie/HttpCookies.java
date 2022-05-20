@@ -29,10 +29,18 @@ public class HttpCookies {
 
     public boolean hasSessionIdCookie() {
         return this.cookies.stream()
-            .anyMatch(c ->c.isCookie(SESSION_KEY));
+            .anyMatch(c -> c.isCookie(SESSION_KEY));
     }
 
     public List<HttpCookie> getCookies() {
         return Collections.unmodifiableList(cookies);
+    }
+
+    public String getSessionId() {
+        return cookies.stream()
+            .filter(c -> c.isCookie(SESSION_KEY))
+            .findFirst()
+            .orElseThrow(() -> new CookieNotFoundException("Cookie SessionId does not exist in request headers"))
+            .getValue();
     }
 }

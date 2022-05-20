@@ -84,6 +84,10 @@ public class HttpRequest {
         return this.headers.hasSessionIdCookie();
     }
 
+    public String getSessionId() {
+        return this.headers.getSessionId();
+    }
+
     @Override
     public String toString() {
         return requestLine + "\r\n" + headers + "\r\n" + body;
