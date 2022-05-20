@@ -1,12 +1,16 @@
 package nextstep.jwp.model.http.httpcookie;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
+import nextstep.jwp.exception.CookieNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class HttpCookiesTest {
+
+    private static final String COOKIE_SESSION_ID_DOES_NOT_EXIST_EXCEPTION = "Cookie SessionId does not exist in request headers";
 
     private final String YUMMY_COOKIE = "choco";
     private final String TASTY_COOKIE = "strawberry";
@@ -26,5 +30,19 @@ class HttpCookiesTest {
     public void check_if_has_jsessionid_cookie() {
         assertThat(httpCookies.hasSessionIdCookie()).isTrue();
     }
+
+    @Test
+    public void get_session_id() {
+        assertThat(httpCookies.getSessionId()).isEqualTo(JSESSIONID);
+    }
+
+    @Test
+    public void get_not_existing_session_id_is_invalid() {
+        HttpCookies cookies = HttpCookies.of("yummy_cookie=" + YUMMY_COOKIE + "; tasty_cookie=" + TASTY_COOKIE + " ");
+        assertThatThrownBy(() -> cookies.getSessionId())
+            .isInstanceOf(CookieNotFoundException.class)
+            .hasMessage(COOKIE_SESSION_ID_DOES_NOT_EXIST_EXCEPTION);
+    }
+
 
 }
