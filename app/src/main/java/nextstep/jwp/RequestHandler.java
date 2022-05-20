@@ -1,7 +1,6 @@
 package nextstep.jwp;
 
 import java.io.BufferedOutputStream;
-//import nextstep.jwp.controller.HttpController;
 import nextstep.jwp.mapper.RequestMapper;
 import nextstep.jwp.model.http.httprequest.HttpRequest;
 import nextstep.jwp.model.http.httpresponse.HttpResponse;

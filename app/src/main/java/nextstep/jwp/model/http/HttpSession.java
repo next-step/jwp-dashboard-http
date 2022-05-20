@@ -2,8 +2,8 @@ package nextstep.jwp.model.http;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
+import nextstep.jwp.controller.generator.StringGenerator;
 import nextstep.jwp.exception.SessionAttributeInvalidException;
 import nextstep.jwp.exception.SessionAttributeNotFoundException;
 
@@ -16,8 +16,8 @@ public class HttpSession {
         this.id = id;
     }
 
-    public static HttpSession of() {
-        return new HttpSession(UUID.randomUUID().toString());
+    public static HttpSession of(StringGenerator stringGenerator) {
+        return new HttpSession(stringGenerator.createRandom());
     }
 
     public void addAttribute(String name, Object object) {
