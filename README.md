@@ -55,11 +55,25 @@ ByteArrayOutputStream: 메모리의 바이트 배열에 데이터를 쓴다.Buff
 ```
 
 
-## STEP 1
+## STEP 2
 - RequestMapper를 이용하여 요청 URI에 따라서 Controller 다르게 사용하도록 구현
 
 - E-Tag를 생성해보고 E-Tag와 함께 요청이 오면 E-Tag를 이용하여 변경 여부를 확인 후 동일하면 그대로 304 Not Modified응답을, 변경되거나 캐시에 없으면 200 Ok 요청과 함께 body를 응답
 ![](https://user-images.githubusercontent.com/63947424/167609637-3efeab43-7a36-4fda-9bc5-623f6677b1f3.png)
 ![](https://user-images.githubusercontent.com/63947424/167609641-cc02da38-f255-477d-90ac-1aef1e8ac78f.png)
+
+
+
+## STEP 3
+- 로그인 요청시 Set-Cookie를 이용하여 세션 아이디를 포함하여 응답 
+![](https://user-images.githubusercontent.com/63947424/169553438-4cae8cb0-e421-4809-a4b5-1f09848eab8e.png)
+
+- 응답받은 세션 아이디를 이용하여 로그인 페이지 요청시 302코드로 응답하며 페이지 이동 
+![](https://user-images.githubusercontent.com/63947424/169553471-d1764e3c-9d43-41d2-8c1c-db89c9148235.png)
+![](https://user-images.githubusercontent.com/63947424/169553466-d7295877-9d0f-4873-a773-6bae20bdd9f7.png)
+
+- 세션에 등록되지 않은 세션아이디로 요청시 세션없는 요청 그대로 로그인 페이지 200 코드로 응답
+![](https://user-images.githubusercontent.com/63947424/169553482-428c63f8-b8c2-4f05-94dc-6d2065438095.png)
+![](https://user-images.githubusercontent.com/63947424/169553476-15bd5311-7438-4671-9f54-18d5f0b1faaf.png)
 
 
