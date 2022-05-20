@@ -41,4 +41,16 @@ class HttpResponseTest {
 
     }
 
+
+    @Test
+    public void create_redirect_with_session_id_response() {
+        HttpResponse response = HttpResponse.redirectWithSessionId("/index.html", "HTTP/1.1", 302, "JSESSIONID=J_SESSION_ID");
+        String expected = "HTTP/1.1 302 Found \r\n"
+            + "Location: /index.html \r\n"
+            + "Set-Cookie: JSESSIONID=J_SESSION_ID \r\n"
+            + "\r\n"
+            + "";
+        assertThat(response.toString()).isEqualTo(expected);
+    }
+
 }
