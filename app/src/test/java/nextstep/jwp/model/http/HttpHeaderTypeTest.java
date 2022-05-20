@@ -1,11 +1,10 @@
 package nextstep.jwp.model.http;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import nextstep.jwp.exception.HeaderNotFoundException;
+import nextstep.jwp.model.http.httpheader.HttpHeaderType;
 import org.junit.jupiter.api.Test;
 
 class HttpHeaderTypeTest {
