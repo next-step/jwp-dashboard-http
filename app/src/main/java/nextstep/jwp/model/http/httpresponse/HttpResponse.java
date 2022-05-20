@@ -1,10 +1,7 @@
 package nextstep.jwp.model.http.httpresponse;
 
-import java.io.File;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import nextstep.jwp.model.http.HttpHeaderType;
 import nextstep.jwp.model.http.HttpHeaders;
 import nextstep.jwp.service.FileService;
 
@@ -31,6 +28,12 @@ public class HttpResponse {
         return httpResponse;
     }
 
+    public static HttpResponse redirectWithSessionId(String url, String httpVersion, int statusCode, String sessionCookie) {
+        HttpResponse httpResponse = redirect(url, httpVersion, statusCode);
+        httpResponse.addCookieHeader(sessionCookie);
+        return httpResponse;
+    }
+
     public static HttpResponse redirect(String url, String httpVersion, int statusCode) {
         HttpResponse httpResponse = new HttpResponse(new HttpStatusLine(httpVersion, statusCode), new byte[0]);
         httpResponse.addFoundHeader(url);
@@ -51,17 +54,21 @@ public class HttpResponse {
     }
 
     private void addOkHeader(String type, String eTag) {
-        httpHeaders.addContentTypeHeader(type);
-        httpHeaders.addContentLengthHeader(this.body.length);
-        httpHeaders.addETagHeader(eTag);
+        httpHeaders.addTypeHeader(HttpHeaderType.CONTENT_TYPE, ContentType.contentType(type));
+        httpHeaders.addTypeHeader(HttpHeaderType.CONTENT_LENGTH, String.valueOf(this.body.length));
+        httpHeaders.addTypeHeader(HttpHeaderType.E_TAG, eTag);
     }
 
     private void addNotModifiedHeader(String eTag) {
-        httpHeaders.addETagHeader(eTag);
+        httpHeaders.addTypeHeader(HttpHeaderType.E_TAG, eTag);
     }
 
     private void addFoundHeader(String url) {
-        httpHeaders.addLocationHeader(url);
+        httpHeaders.addTypeHeader(HttpHeaderType.LOCATION, url);
+    }
+
+    private void addCookieHeader(String sessionCookie) {
+        httpHeaders.addTypeHeader(HttpHeaderType.SET_COOKIE, sessionCookie);
     }
 
     @Override
