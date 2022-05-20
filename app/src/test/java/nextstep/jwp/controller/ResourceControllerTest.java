@@ -78,4 +78,16 @@ class ResourceControllerTest {
         assertThat(response.toString()).isEqualTo(expected);
     }
 
+    @Test
+    public void get_method_with_login_page_with_sessionId() {
+        String[] headers = {"Host: localhost:8080 ", "Connection: keep-alive ", "Cookie: yummy_cookie=choco; tasty_cookie=strawberry; JSESSIONID=656cef62-e3c4-40bc-a8df-94732920ed46 "};
+        HttpRequest request = new HttpRequest("GET /login.html HTTP/1.1 ", headers, "");
+        HttpResponse response = controller.service(request);
+        String expected = "HTTP/1.1 302 Found \r\n"
+            + "Location: /index.html \r\n"
+            + "\r\n"
+            + "";
+        assertThat(response.toString()).isEqualTo(expected);
+    }
+
 }
