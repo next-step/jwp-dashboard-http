@@ -30,6 +30,10 @@ public class HttpHeader {
         return this.headerType.equals(HttpHeaderType.IF_NONE_MATCH);
     }
 
+    public boolean isCookie() {
+        return this.headerType.equals(HttpHeaderType.COOKIE);
+    }
+
 
     public String getHeaderValue() {
         return headerValue;

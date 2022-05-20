@@ -24,24 +24,12 @@ public class HttpHeaders {
         this.headers.add(HttpHeader.of(line));
     }
 
-    public void addContentTypeHeader(String type) {
-        addHeader(HttpHeaderType.CONTENT_TYPE.getHeaderType() + ": " + ContentType.contentType(type) + " ");
+    public String headerToString(HttpHeaderType type, String value) {
+        return type.getHeaderType() + ": " + value + " ";
     }
 
-    public void addContentLengthHeader(int contentLength) {
-        addHeader(HttpHeaderType.CONTENT_LENGTH.getHeaderType() + ": " + contentLength + " ");
-    }
-
-    public void addLocationHeader(String location) {
-        addHeader(HttpHeaderType.LOCATION.getHeaderType() + ": " + location + " ");
-    }
-
-    public void addETagHeader(String eTag) {
-        addHeader(HttpHeaderType.E_TAG.getHeaderType() + ": " + eTag + " ");
-    }
-
-    public void addContentEncodingHeader(String encodingType) {
-        addHeader(HttpHeaderType.CONTENT_ENCODING.getHeaderType() + ": " + encodingType + " ");
+    public void addTypeHeader(HttpHeaderType type, String value) {
+        addHeader(headerToString(type, value));
     }
 
     public Integer getContentLength() {
@@ -61,6 +49,19 @@ public class HttpHeaders {
             .filter(httpHeader -> httpHeader.isIfNoneMatch())
             .findFirst()
             .orElseThrow(() -> new RuntimeException("ETag does not exist in request headers"))
+            .getHeaderValue();
+    }
+
+    public boolean hasCookie() {
+        return headers.stream()
+            .anyMatch(httpHeader -> httpHeader.isCookie());
+    }
+
+    public String getCookie() {
+        return headers.stream()
+            .filter(httpHeader -> httpHeader.isCookie())
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Cookie does not exist in request headers"))
             .getHeaderValue();
     }
 

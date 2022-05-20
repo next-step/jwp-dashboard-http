@@ -26,6 +26,7 @@ public enum HttpHeaderType {
     ACCEPT_ENCODING("Accept-Encoding"),
     ACCEPT_LANGUAGE("Accept-Language"),
     COOKIE("Cookie"),
+    SET_COOKIE("Set-Cookie"),
     PRAGMA("Pragma"),
     REFERER("Referer"),
     ORIGIN("Origin"),
