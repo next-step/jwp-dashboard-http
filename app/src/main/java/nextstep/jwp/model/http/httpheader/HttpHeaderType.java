@@ -1,4 +1,4 @@
-package nextstep.jwp.model.http;
+package nextstep.jwp.model.http.httpheader;
 
 import java.util.Arrays;
 import nextstep.jwp.exception.HeaderNotFoundException;

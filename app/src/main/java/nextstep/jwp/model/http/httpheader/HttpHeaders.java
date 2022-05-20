@@ -1,10 +1,9 @@
-package nextstep.jwp.model.http;
+package nextstep.jwp.model.http.httpheader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import nextstep.jwp.model.http.httpresponse.ContentType;
 
 public class HttpHeaders {
 
@@ -52,19 +51,10 @@ public class HttpHeaders {
             .getHeaderValue();
     }
 
-    public boolean hasCookie() {
+    public boolean hasSessionIdCookie() {
         return headers.stream()
-            .anyMatch(httpHeader -> httpHeader.isCookie());
+            .anyMatch(httpHeader -> httpHeader.hasSessionIdCookie());
     }
-
-    public String getCookie() {
-        return headers.stream()
-            .filter(httpHeader -> httpHeader.isCookie())
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("Cookie does not exist in request headers"))
-            .getHeaderValue();
-    }
-
 
     @Override
     public String toString() {

@@ -1,6 +1,7 @@
-package nextstep.jwp.model.http;
+package nextstep.jwp.model.http.httpcookie;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import nextstep.jwp.exception.CookieNotFoundException;
@@ -26,17 +27,12 @@ public class HttpCookies {
             .collect(Collectors.toList());
     }
 
-    public String getSessionId() {
-        return getCookie(SESSION_KEY);
-    }
-
-    private String getCookie(String key) {
+    public boolean hasSessionIdCookie() {
         return this.cookies.stream()
-            .filter(c -> c.isCookie(key))
-            .findFirst()
-            .orElseThrow(() -> new CookieNotFoundException("Cookie does not exist with name : " + key))
-            .getValue();
+            .anyMatch(c ->c.isCookie(SESSION_KEY));
     }
 
-
+    public List<HttpCookie> getCookies() {
+        return Collections.unmodifiableList(cookies);
+    }
 }

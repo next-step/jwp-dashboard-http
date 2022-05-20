@@ -6,9 +6,9 @@ import nextstep.jwp.exception.DuplicatedAccountException;
 import nextstep.jwp.exception.InvalidPasswordException;
 import nextstep.jwp.exception.UserNotFoundException;
 import nextstep.jwp.model.User;
-import nextstep.jwp.model.http.HttpCookie;
-import nextstep.jwp.model.http.HttpSession;
-import nextstep.jwp.model.http.HttpSessions;
+import nextstep.jwp.model.http.httpcookie.HttpCookie;
+import nextstep.jwp.model.http.httpsession.HttpSession;
+import nextstep.jwp.model.http.httpsession.HttpSessions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

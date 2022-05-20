@@ -20,6 +20,9 @@ public class ResourceController extends AbstractController {
 
     @Override
     protected HttpResponse doGet(HttpRequest request) {
+        if (isLoginRequest(request) && isLoginAlready(request)) {
+            return HttpResponse.redirect("/index.html", request.getHttpVersion(), 302);
+        }
         URL resource = FileService.getURL(request.getPath());
         String eTag = getETag(resource);
         byte[] body = FileService.getBodyFromURL(resource);
@@ -39,6 +42,14 @@ public class ResourceController extends AbstractController {
 
     private boolean isMatchETag(String ifNoneMatch, String ETag) {
         return ifNoneMatch.equals(ETag);
+    }
+
+    private boolean isLoginRequest(HttpRequest request) {
+        return request.getPath().equals("/login.html");
+    }
+
+    private boolean isLoginAlready(HttpRequest request) {
+        return request.hasSessionIdCookie();
     }
 
 }

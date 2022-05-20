@@ -1,8 +1,8 @@
 package nextstep.jwp.model.http.httpresponse;
 
 import java.nio.charset.StandardCharsets;
-import nextstep.jwp.model.http.HttpHeaderType;
-import nextstep.jwp.model.http.HttpHeaders;
+import nextstep.jwp.model.http.httpheader.HttpHeaderType;
+import nextstep.jwp.model.http.httpheader.HttpHeaders;
 import nextstep.jwp.service.FileService;
 
 public class HttpResponse {

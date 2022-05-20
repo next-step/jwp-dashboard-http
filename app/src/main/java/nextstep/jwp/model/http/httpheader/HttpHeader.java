@@ -1,4 +1,6 @@
-package nextstep.jwp.model.http;
+package nextstep.jwp.model.http.httpheader;
+
+import nextstep.jwp.model.http.httpcookie.HttpCookies;
 
 public class HttpHeader {
 
@@ -30,8 +32,8 @@ public class HttpHeader {
         return this.headerType.equals(HttpHeaderType.IF_NONE_MATCH);
     }
 
-    public boolean isCookie() {
-        return this.headerType.equals(HttpHeaderType.COOKIE);
+    public boolean hasSessionIdCookie() {
+        return this.headerType.equals(HttpHeaderType.COOKIE) && HttpCookies.of(headerValue).hasSessionIdCookie();
     }
 
 

@@ -1,6 +1,7 @@
-package nextstep.jwp.model.http;
+package nextstep.jwp.model.http.httpsession;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import nextstep.jwp.controller.generator.StringGenerator;
@@ -44,16 +45,31 @@ public class HttpSession {
     }
 
     private void checkValidate(String name, Object object) {
+        checkNameValidity(name);
+        checkObjectValidity(object);
+    }
+
+    private void checkNameValidity(String name) {
         if (name.isEmpty() || name.isBlank()) {
             throw new SessionAttributeInvalidException("Session attribute name could not be empty or blank.");
         }
+        if (hasAttribute(name)) {
+            throw new SessionAttributeInvalidException("Session already have attribute named " + name);
+        }
+    }
 
+    private void checkObjectValidity(Object object) {
         if (object == null) {
             throw new SessionAttributeInvalidException("Session attribute object could not be null.");
         }
     }
 
-    public boolean isSession(String id) {
-        return this.id.equals(id);
+    private boolean hasAttribute(String name) {
+        return this.sessionObjects.stream()
+            .anyMatch(s -> s.isSessionObject(name));
+    }
+
+    public List<HttpSessionObject> getSessionObjects() {
+        return Collections.unmodifiableList(sessionObjects);
     }
 }

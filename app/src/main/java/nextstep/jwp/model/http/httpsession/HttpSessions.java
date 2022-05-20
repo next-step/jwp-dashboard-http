@@ -1,4 +1,4 @@
-package nextstep.jwp.model.http;
+package nextstep.jwp.model.http.httpsession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +26,4 @@ public class HttpSessions {
         return httpSession;
     }
 
-    public HttpSession getSession(String id) {
-        return this.httpSessions.stream()
-            .filter(s -> s.isSession(id))
-            .findFirst()
-            .orElseThrow(() -> new SessionNotFoundException("Session not found with id : " + id));
-    }
-
-    public Object getObject(String id, String name) {
-        return getSession(id).getAttribute(name);
-    }
 }

@@ -1,6 +1,4 @@
-package nextstep.jwp.model.http;
-
-import java.util.Collections;
+package nextstep.jwp.model.http.httpsession;
 
 public class HttpSessionObject {
 

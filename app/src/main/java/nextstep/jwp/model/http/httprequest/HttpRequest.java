@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import nextstep.jwp.exception.HttpRequestMessageIsEmptyException;
-import nextstep.jwp.model.http.HttpHeaders;
+import nextstep.jwp.model.http.httpheader.HttpHeaders;
 
 public class HttpRequest {
 
@@ -78,6 +78,10 @@ public class HttpRequest {
 
     public String getIfNoneMatch() {
         return this.headers.getIfNoneMatch();
+    }
+
+    public boolean hasSessionIdCookie() {
+        return this.headers.hasSessionIdCookie();
     }
 
     @Override
