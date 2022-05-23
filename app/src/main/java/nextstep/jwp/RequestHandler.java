@@ -1,5 +1,9 @@
 package nextstep.jwp;
 
+import java.io.BufferedOutputStream;
+import nextstep.jwp.mapper.RequestMapper;
+import nextstep.jwp.model.http.httprequest.HttpRequest;
+import nextstep.jwp.model.http.httpresponse.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +15,7 @@ import java.util.Objects;
 
 public class RequestHandler implements Runnable {
 
-    private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
     private final Socket connection;
 
@@ -21,34 +25,43 @@ public class RequestHandler implements Runnable {
 
     @Override
     public void run() {
-        log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(), connection.getPort());
-
-        try (final InputStream inputStream = connection.getInputStream();
-             final OutputStream outputStream = connection.getOutputStream()) {
-
-            final String responseBody = "Hello world!";
-
-            final String response = String.join("\r\n",
-                    "HTTP/1.1 200 OK ",
-                    "Content-Type: text/html;charset=utf-8 ",
-                    "Content-Length: " + responseBody.getBytes().length + " ",
-                    "",
-                    responseBody);
-
-            outputStream.write(response.getBytes());
-            outputStream.flush();
+        logger.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(), connection.getPort());
+        try (final InputStream inputStream = connection.getInputStream(); final OutputStream outputStream = connection.getOutputStream()) {
+            readAndWrite(inputStream, outputStream);
         } catch (IOException exception) {
-            log.error("Exception stream", exception);
+            logger.error("Exception stream", exception);
         } finally {
             close();
         }
+    }
+
+    private void readAndWrite(InputStream inputStream, OutputStream outputStream) throws IOException {
+        if (inputStream != null) {
+            HttpRequest request = read(inputStream);
+            write(outputStream, request);
+        }
+    }
+
+    private HttpRequest read(InputStream inputStream) throws IOException {
+        HttpRequest httpRequest = new HttpRequest(inputStream);
+        logger.info("Http Request {}", httpRequest.toString());
+        return httpRequest;
+    }
+
+    private void write(OutputStream outputStream, HttpRequest httpRequest) throws IOException {
+        HttpResponse httpResponse = RequestMapper.of(httpRequest.getPath()).service(httpRequest);
+        logger.info("Http Response {}", httpResponse.toString());
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
+        bufferedOutputStream.write(httpResponse.toBytes());
+        bufferedOutputStream.flush();
     }
 
     private void close() {
         try {
             connection.close();
         } catch (IOException exception) {
-            log.error("Exception closing socket", exception);
+            logger.error("Exception closing socket", exception);
         }
     }
+
 }
